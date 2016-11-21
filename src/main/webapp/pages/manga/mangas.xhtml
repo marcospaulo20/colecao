@@ -1,0 +1,102 @@
+<ui:composition template="../../WEB-INF/template/template.xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="conteudo">
+	
+		<h:outputStylesheet library="css" name="mangas.css" />
+		<h:form id="form">
+		    <p:panel>
+		    	<h:panelGrid columns="3">
+			    	<p:outputLabel value="Tipo:" /> 
+		            <p:selectOneMenu id="tipo" value="#{mangaBean.tipo}" style="width:150px">
+		                <p:ajax listener="#{mangaBean.onTipoChange}" update="tabela-manga" />
+		               <f:selectItems value="#{mangaBean.tipos}" var="t" itemLabel="#{t.label}" itemValue="#{t}" />                               
+		            </p:selectOneMenu>
+		            
+		            <p:commandButton icon="fa fa-plus" actionListener="#{mangaBean.novo}" oncomplete="PF('dlgManga').show();" update="dlg-manga" />
+	            </h:panelGrid>
+			</p:panel>
+			<p:dataTable value="#{mangaBean.mangas}" var="manga" id="tabela-manga"
+				paginator="true" paginatorPosition="bottom"
+				emptyMessage="Nenhum registro foi encontrado.">
+				
+				<p:column headerText="Nome" styleClass="coluna-nome">
+					<h:link outcome="volumes" value="#{manga.nome}">
+						<f:param name="mangaID" value="#{manga.id}" />
+					</h:link>					
+				</p:column>
+				
+				<p:column headerText="Autor" styleClass="coluna-autor">
+					<h:outputText value="#{manga.autor}" />
+				</p:column>
+				
+				<p:column headerText="Editora" styleClass="coluna-editora">
+					<h:outputText value="#{manga.editora}" />
+				</p:column>
+				
+				<p:column headerText="N&#176; Volumes" styleClass="coluna-numero-volume">
+					<h:outputText value="#{manga.volumes == null ? 0 : manga.quantidadeVolume()}" />
+				</p:column>
+				
+				<p:column headerText="Op&#231;&#240;es" styleClass="coluna-opcao">
+					<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgManga').show();" update="dlg-manga">
+						<f:setPropertyActionListener value="#{manga}" target="#{mangaBean.manga}" />
+					</p:commandButton>
+					
+					<p:commandButton icon="fa fa-trash" update="form" process="@this"
+						action="#{mangaBean.remove()}">
+						<f:setPropertyActionListener value="#{manga}" target="#{mangaBean.manga}" />
+						
+						<p:confirm header="Excluir" message="Confirma exclus&#227;o?" icon="ui-icon-alert" />
+						<p:confirmDialog header="Exluir" global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton  value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				     		<p:commandButton value="N&#227;o" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				   		</p:confirmDialog>
+					</p:commandButton>
+				</p:column>							
+			</p:dataTable>
+		</h:form>
+		
+		<p:dialog widgetVar="dlgMangaShow" id="dlg-manga-show" modal="true" resizable="fasle" header="Manga">
+			<p:panel id="panel-manga-show">
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Nome:" />
+					<h:outputText value="#{mangaBean.manga.nome}" />
+					
+					<p:outputLabel value="Autor:" />
+					<h:outputText value="#{mangaBean.manga.autor}" />
+					
+					<p:outputLabel value="Editora:" />
+					<h:outputText value="#{mangaBean.manga.editora}" />
+				</h:panelGrid>
+			</p:panel>
+		</p:dialog>
+		
+		<p:dialog widgetVar="dlgManga" id="dlg-manga" modal="true" resizable="fasle" header="Manga">
+			<h:form id="form-manga">
+				<p:panel id="panel-manga">
+					<h:panelGrid columns="2">
+						<p:outputLabel for="nome" value="Nome:" />
+						<p:inputText id="nome" value="#{mangaBean.manga.nome}" required="true" />
+						
+						<p:outputLabel for="autor" value="Autor:" />
+						<p:inputText id="autor" value="#{mangaBean.manga.autor}" required="true" />
+						
+						<p:outputLabel for="editora" value="Editora:" />
+						<p:inputText id="editora" value="#{mangaBean.manga.editora}" required="true" />
+						
+						<p:outputLabel value="Tipo:" />
+						<p:selectOneMenu id="tipo" value="#{mangaBean.manga.tipo}" style="width:150px">
+			               <f:selectItems value="#{mangaBean.tipos}" var="t" itemLabel="#{t.label}" itemValue="#{t}" />                               
+			            </p:selectOneMenu>
+					</h:panelGrid>
+					
+					<p:commandButton value="Save" action="#{mangaBean.save()}" update="form:tabela-manga form-manga:panel-manga" style="float: right" />
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

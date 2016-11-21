@@ -1,0 +1,190 @@
+<ui:composition template="../../WEB-INF/template/template.xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="conteudo">
+		<h:outputStylesheet library="css" name="mangas.css" />
+		<h:outputScript library="js" name="locale_pt_BR.js" />
+		
+		<h:form id="form">
+		    <p:panel>
+		    	<p:breadCrumb>
+				    <p:menuitem url="/index.xhtml" />
+				    <p:menuitem value="Titulos" url="/pages/manga/mangas.xhtml" />
+				    <p:menuitem value="#{volumeBean.manga.nome}" url="#" />				    
+				</p:breadCrumb>
+		    </p:panel>
+		    
+		    <p:panel header="Total" id="panel-total">
+		    	<h:panelGrid columns="2">
+			    	Total:
+			    	<h:outputText value="#{volumeBean.precoTotal()}">
+			    		<f:convertNumber type="currency" currencySymbol="R$" />
+			    	</h:outputText>
+			    	
+			    	Total Fatam:
+			    	<h:outputText value="#{volumeBean.precoTotalFatam()}">
+			    		<f:convertNumber type="currency" currencySymbol="R$" />
+			    	</h:outputText>
+		    	</h:panelGrid>
+		    </p:panel>
+		    
+		    <p:panel header="Volumes" id="panel-volume-tabela">
+		    	<f:facet name="actions">
+		    		<p:commandButton styleClass="botao-novo" icon="fa fa-plus" actionListener="#{volumeBean.novo}" oncomplete="PF('dlgVolume').show();" update="dlg-volume" />
+		    	</f:facet>
+		    	
+				<p:dataTable value="#{volumeBean.volumes}" var="volume" id="tabela-volume"
+					paginator="true" paginatorPosition="bottom" rows="15"
+					rowStyleClass="#{volume.tem == true ? null : 'red'}"
+					emptyMessage="Nenhum registro foi encontrado.">
+									
+					<p:column headerText="Nome">
+						<h:outputText value="#{volume.nome}" />
+					</p:column>
+					
+					<p:column headerText="Data lan&#231;amento" styleClass="coluna-data-lancamento">
+						<h:outputText value="#{volume.dataLancamento}">
+							<f:convertDateTime locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Pre&#231;o" styleClass="coluna-preco" rendered="#{volumeBean.manga.tipo == 'FISICO' ? true : false}">
+						<h:outputText value="#{volume.preco}" styleClass="preco">
+							<f:convertNumber type="currency" currencySymbol="R$" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="N&#176; capitulos" styleClass="coluna-numero-capitulo">
+						<h:outputText value="#{volume.capitulos == null ? 0 : volume.capitulos.size()}" />
+					</p:column>
+					
+					<p:column headerText="Tem" styleClass="coluna-tem">
+						<h:selectBooleanCheckbox value="#{volume.tem}">
+							<f:ajax event="click" listener="#{volumeBean.onCheck}" update="form:tabela-volume" />
+							<f:attribute name="volume" value="#{volume}" />
+						</h:selectBooleanCheckbox>
+					</p:column>
+					
+					<p:column headerText="Op&#231;&#240;es" styleClass="coluna-opcao-volume">
+						<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgVolume').show();" update="form-volume:panel-volume" process="@this">
+							<f:setPropertyActionListener value="#{volume}" target="#{volumeBean.volume}" />
+						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-trash" update="form" process="@this" action="#{volumeBean.remove()}">
+							<f:setPropertyActionListener value="#{volume}" target="#{volumeBean.volume}" />
+							<p:confirm header="Excluir" message="Confirma exclus&#227;o?" icon="ui-icon-alert" />
+							<p:confirmDialog header="Exluir" global="true" showEffect="fade" hideEffect="fade">
+								<p:commandButton  value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					     		<p:commandButton value="N&#227;o" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					   		</p:confirmDialog>				
+						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-search" update="form-capitulo:panel-capitulo">
+							<f:setPropertyActionListener value="#{volume}" target="#{volumeBean.volumeSelecionado}" />						
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+		
+		<h:form id="form-capitulo">
+			<p:panel id="panel-capitulo" rendered="#{not empty volumeBean.volumeSelecionado}" header="Capitulos">
+				
+				<f:facet name="actions" id="botao-acao">
+					<p:commandButton styleClass="botao-novo" icon="fa fa-plus" actionListener="#{volumeBean.novoCapitulo}" 
+						oncomplete="PF('dlgCapitulo').show();" update="dlg-capitulo"/>
+				</f:facet>	
+				
+				<p:dataTable id="tabela-capitulo" value="#{volumeBean.volumeSelecionado.capitulos}" var="capitulo"
+					paginator="true" paginatorPosition="bottom" rows="3"
+					editable="true" editMode="cell" widgetVar="cellCapitulos"
+					emptyMessage="Nenhum registro foi encontrado.">
+					
+					<p:column headerText="Volume">
+						<h:outputText value="#{volumeBean.volumeSelecionado.nome}" />
+					</p:column>
+					
+					<p:column headerText="N&#250;mero">
+						<h:outputText value="#{capitulo.numero}" />
+					</p:column>
+					
+					<p:column headerText="Nome">
+						<h:outputText value="#{capitulo.nome}" />
+					</p:column>
+					
+					<p:column headerText="Tem" rendered="#{volumeBean.manga.tipo == 'VIRTUAL'}" styleClass="coluna-tem">
+						<p:selectBooleanCheckbox value="#{capitulo.tem}">
+							
+						</p:selectBooleanCheckbox>
+					</p:column>
+					
+					<p:column headerText="Op&#231;&#240;es" styleClass="coluna-opcao">
+						<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgCapitulo').show();" update="form-capitulo-dlg" process="@this">
+							<f:setPropertyActionListener value="#{capitulo}" target="#{volumeBean.capitulo}" />
+						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-trash" update="form form-capitulo:tabela-capitulo" process="@this" action="#{volumeBean.removeCapitulo()}">
+							<f:setPropertyActionListener value="#{capitulo}" target="#{volumeBean.capitulo}" />
+							<p:confirm header="Excluir" message="Confirma exclus&#227;o?" icon="ui-icon-alert" />
+							<p:confirmDialog header="Exluir" global="true" showEffect="fade" hideEffect="fade">
+								<p:commandButton  value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					     		<p:commandButton value="N&#227;o" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					   		</p:confirmDialog>
+						</p:commandButton>
+					</p:column>	
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+		
+		<p:dialog widgetVar="dlgVolume" id="dlg-volume" modal="true" resizable="fasle" header="Volume">
+			<h:form id="form-volume">
+				<p:panel id="panel-volume">
+					<h:panelGrid columns="2">
+						<p:outputLabel for="nome" value="Nome:" />
+						<p:inputText id="nome" value="#{volumeBean.volume.nome}" required="true" />
+						
+						<p:outputLabel for="data-lancamento" value="Data lancamento:" />
+						<p:calendar id="data-lancamento" value="#{volumeBean.volume.dataLancamento}" pattern="dd/MM/yyyy"
+							mask="true" locale="pt_BR" navigator="true" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" rendered="#{volumeBean.manga.tipo == 'FISICO' ? true : false}">
+						<p:outputLabel for="preco" value="Pre&#231;o:" />
+						<p:inputNumber id="preco" value="#{volumeBean.volume.preco}" required="tue" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="2">
+						<p:outputLabel for="tem" value="Tem:" />
+						<p:selectBooleanCheckbox id="tem" value="#{volumeBean.volume.tem}" />
+					</h:panelGrid>	
+					
+					<p:commandButton value="Save" action="#{volumeBean.save()}" update="form:tabela-volume form-volume:panel-volume form:panel-total" style="float: right" />
+				</p:panel>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog widgetVar="dlgCapitulo" id="dlg-capitulo" modal="true" resizable="fasle" header="Capitulo">
+			<h:form id="form-capitulo-dlg">
+				<p:panel id="panel-capitulo-dlg">
+					<h:panelGrid columns="2">
+						<p:outputLabel for="numero" value="N&#250;mero:" />
+						<p:inputNumber id="numero" value="#{volumeBean.capitulo.numero}" decimalPlaces="0" />
+						
+						<p:outputLabel for="nome" value="Nome:" />
+						<p:inputText id="nome" value="#{volumeBean.capitulo.nome}" required="true" />
+					</h:panelGrid>
+					<h:panelGrid columns="2" rendered="#{volumeBean.manga.tipo == 'VIRTUAL'}">
+						<p:outputLabel for="tem" value="Tem:" />
+						<p:selectBooleanCheckbox id="tem" value="#{volumeBean.capitulo.tem}" />
+					</h:panelGrid>												
+					
+					<p:commandButton value="Save" action="#{volumeBean.saveCapitulo()}"
+						update="form form-capitulo:tabela-capitulo form-capitulo-dlg:panel-capitulo-dlg" style="float: right" />
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,63 @@
+.coluna-nome {
+	width: 250px;
+}
+
+.coluna-autor {
+	width: 200px;
+}
+
+.coluna-editora {
+	width: 100px;
+}
+
+.coluna-numero-volume {
+	text-align: center;
+	width: 80px;
+}
+
+.coluna-opcao {
+	text-align: center;
+	width: 80px;
+}
+
+.red {
+	background-color: red;
+	color: #fff;	
+}
+
+.coluna-preco {
+	text-align: right;
+	width: 80px;
+}
+
+.coluna-opcao-volume {
+	text-align: right;
+	width: 120px;
+}
+
+.coluna-data-lancamento {
+	text-align: center;
+	width: 120px;
+}
+
+.coluna-tem {
+	text-align: center;
+	width: 30px;
+}
+
+.coluna-numero-capitulo {
+	text-align: center;
+	width: 80px;
+}
+
+#form-capitulo {
+	margin-top: 20px;
+}
+
+#panel-volume-tabela {
+	margin-top: 20px;
+}
+
+.botao-novo {
+	float: right;	
+}
