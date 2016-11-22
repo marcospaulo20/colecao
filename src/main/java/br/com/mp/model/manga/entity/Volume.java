@@ -97,7 +97,11 @@ public class Volume implements Serializable {
 
 	public void setCapitulos(List<Capitulo> capitulos) {
 		this.capitulos = capitulos;
-	}	
+	}
+
+	public String quantidadeCapituloTem() {
+		return this.capitulos.stream().filter(c -> c.getTem() == true).count() + " de " + this.capitulos.size();
+	}
 
 	@Override
 	public int hashCode() {

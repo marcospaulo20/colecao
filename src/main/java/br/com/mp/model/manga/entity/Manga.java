@@ -90,6 +90,6 @@ public class Manga implements Serializable {
 	}
 	
 	public String quantidadeVolume() {
-		return this.volumes.stream().filter(v->v.getTem() == true).count() + "/" + this.volumes.size();
+		return this.volumes.stream().filter(v->v.getTem() == true).count() + " de " + this.volumes.size();
 	}
 }

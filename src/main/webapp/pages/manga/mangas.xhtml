@@ -2,7 +2,8 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	
 	<ui:define name="conteudo">
 	
@@ -23,7 +24,7 @@
 				paginator="true" paginatorPosition="bottom"
 				emptyMessage="Nenhum registro foi encontrado.">
 				
-				<p:column headerText="Nome" styleClass="coluna-nome">
+				<p:column headerText="Nome" styleClass="coluna-nome" sortBy="#{manga.nome}">
 					<h:link outcome="volumes" value="#{manga.nome}">
 						<f:param name="mangaID" value="#{manga.id}" />
 					</h:link>					
@@ -33,7 +34,7 @@
 					<h:outputText value="#{manga.autor}" />
 				</p:column>
 				
-				<p:column headerText="Editora" styleClass="coluna-editora">
+				<p:column headerText="Editora" styleClass="coluna-editora" sortBy="#{manga.editora}">
 					<h:outputText value="#{manga.editora}" />
 				</p:column>
 				
@@ -56,7 +57,11 @@
 				     		<p:commandButton value="N&#227;o" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 				   		</p:confirmDialog>
 					</p:commandButton>
-				</p:column>							
+				</p:column>
+				
+				<f:facet name="footer">
+			        No total h&#225; #{fn:length(mangaBean.mangas)} mangas.
+			    </f:facet>
 			</p:dataTable>
 		</h:form>
 		

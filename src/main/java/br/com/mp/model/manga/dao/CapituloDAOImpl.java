@@ -9,7 +9,7 @@ import br.com.mp.model.manga.entity.Capitulo;
 import br.com.mp.model.manga.entity.Volume;
 import br.com.mp.util.dao.AbstractDAO;
 
-public class CapituloDAOImpl  extends AbstractDAO<Capitulo, Long> implements CapituloDAO, Serializable {
+public class CapituloDAOImpl extends AbstractDAO<Capitulo, Long> implements CapituloDAO, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

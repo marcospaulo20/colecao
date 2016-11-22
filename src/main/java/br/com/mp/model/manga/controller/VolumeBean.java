@@ -1,27 +1,30 @@
 package br.com.mp.model.manga.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.hibernate.service.spi.ServiceException;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
+import org.primefaces.event.FileUploadEvent;
 
+import com.google.common.io.ByteStreams;
 import com.sun.faces.util.MessageUtils;
 
 import br.com.mp.model.manga.entity.Capitulo;
+import br.com.mp.model.manga.entity.ImagemManga;
 import br.com.mp.model.manga.entity.Manga;
 import br.com.mp.model.manga.entity.Volume;
 import br.com.mp.model.manga.service.CapituloService;
+import br.com.mp.model.manga.service.ImagemMangaService;
 import br.com.mp.model.manga.service.MangaService;
 import br.com.mp.model.manga.service.VolumeService;
 
@@ -39,6 +42,9 @@ public class VolumeBean implements Serializable {
 
 	@Inject
 	private CapituloService capituloService;
+	
+	@Inject
+	private ImagemMangaService imagemMangaService;
 
 	private Volume volume;
 	private List<Volume> volumes;
@@ -48,6 +54,8 @@ public class VolumeBean implements Serializable {
 	private Manga manga;
 
 	private Capitulo capitulo;
+	
+	private ImagemManga imagem;
 
 	private Double somaTotal;
 
@@ -85,6 +93,10 @@ public class VolumeBean implements Serializable {
 
 	public void setCapitulo(Capitulo capitulo) {
 		this.capitulo = capitulo;
+	}
+	
+	public ImagemManga getImagem() {
+		return imagem;
 	}
 
 	@PostConstruct
@@ -206,12 +218,34 @@ public class VolumeBean implements Serializable {
 	}	
 	
 	
-	public void onCheck(AjaxBehaviorEvent e) {		
-		Volume volume = (Volume) e.getComponent().getAttributes().get("volume");
-		if(volume != null)
+	public void atualizarCheck(Volume volume, boolean checkSelection) {
+		if(volume != null) {
+			volume.setTem(checkSelection);
 			this.volumeService.save(volume);
+		}	
+	}
+	
+	public void atualizarCheckCapitulo(Capitulo capitulo, boolean checkSelection) {
+		if(capitulo != null) {
+			capitulo.setTem(checkSelection);
+			this.capituloService.save(capitulo);
+			this.volumeService.listByManga(manga);
+		}	
+			
 	}
 
+	public void uploadImagem(FileUploadEvent event) throws IOException {
+		InputStream is = event.getFile().getInputstream();
+		
+		byte[] imagemBytes = ByteStreams.toByteArray(is);
+		
+		this.imagem = new ImagemManga();
+		this.imagem.setCodigoVolume(this.volume.getId());
+		
+		this.imagem.setImagem(imagemBytes);
+		this.imagemMangaService.save(imagem);
+	}
+	
 	private void atualizar() {
 		this.volumes = volumeService.listByManga(buscarMangaPorUrl());	
 		this.volume = new Volume();

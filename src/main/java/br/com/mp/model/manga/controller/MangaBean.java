@@ -94,5 +94,12 @@ public class MangaBean implements Serializable {
 		if(this.tipo != null)
 			this.mangas = this.mangaService.listFilter(tipo);
 	}
+
+	public Long quantidadeMangaFisico() {
+		return this.mangaService.listFilter(Tipo.FISICO).stream().count();
+	}
 	
+	public Long quantidadeMangaVirtual() {
+		return this.mangaService.listFilter(Tipo.VIRTUAL).stream().count();
+	}
 }

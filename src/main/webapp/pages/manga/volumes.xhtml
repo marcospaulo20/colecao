@@ -2,7 +2,8 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
 	
 	<ui:define name="conteudo">
 		<h:outputStylesheet library="css" name="mangas.css" />
@@ -17,7 +18,7 @@
 				</p:breadCrumb>
 		    </p:panel>
 		    
-		    <p:panel header="Total" id="panel-total">
+		    <p:panel header="Total" id="panel-total" rendered="#{volumeBean.manga.tipo == 'FISICO' ? true : false}">
 		    	<h:panelGrid columns="2">
 			    	Total:
 			    	<h:outputText value="#{volumeBean.precoTotal()}">
@@ -40,8 +41,12 @@
 					paginator="true" paginatorPosition="bottom" rows="15"
 					rowStyleClass="#{volume.tem == true ? null : 'red'}"
 					emptyMessage="Nenhum registro foi encontrado.">
-									
-					<p:column headerText="Nome">
+					
+					<p:column styleClass="coluna-imagem">
+						<o:graphicImage value="#{images.get(volume.id)}" width="80" height="100" />
+					</p:column>
+					
+					<p:column headerText="Nome" styleClass="coluna-nome-volume">
 						<h:outputText value="#{volume.nome}" />
 					</p:column>
 					
@@ -57,15 +62,15 @@
 						</h:outputText>
 					</p:column>
 					
-					<p:column headerText="N&#176; capitulos" styleClass="coluna-numero-capitulo">
-						<h:outputText value="#{volume.capitulos == null ? 0 : volume.capitulos.size()}" />
+					<p:column headerText="N&#176; capitulos" styleClass="coluna-numero-capitulo" rendered="#{volumeBean.manga.tipo == 'VIRTUAL' ? true : false}">
+						<h:outputText value="#{volume.capitulos == null ? 0 : volume.quantidadeCapituloTem()}"/>
 					</p:column>
 					
 					<p:column headerText="Tem" styleClass="coluna-tem">
-						<h:selectBooleanCheckbox value="#{volume.tem}">
-							<f:ajax event="click" listener="#{volumeBean.onCheck}" update="form:tabela-volume" />
-							<f:attribute name="volume" value="#{volume}" />
-						</h:selectBooleanCheckbox>
+						<p:selectBooleanCheckbox value="#{volume.tem}">
+							<p:ajax partialSubmit="true" resetValues="true" listener="#{volumeBean.atualizarCheck(volume, volume.tem)}"
+								update="form:tabela-volume form:panel-total" />
+						</p:selectBooleanCheckbox>						
 					</p:column>
 					
 					<p:column headerText="Op&#231;&#240;es" styleClass="coluna-opcao-volume">
@@ -85,13 +90,17 @@
 						<p:commandButton icon="fa fa-search" update="form-capitulo:panel-capitulo">
 							<f:setPropertyActionListener value="#{volume}" target="#{volumeBean.volumeSelecionado}" />						
 						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-image" oncomplete="PF('dlgImagem').show();" update="form-imagem:panel-imagem">
+							<f:setPropertyActionListener value="#{volume}" target="#{volumeBean.volume}" />						
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</p:panel>
 		</h:form>
 		
 		<h:form id="form-capitulo">
-			<p:panel id="panel-capitulo" rendered="#{not empty volumeBean.volumeSelecionado}" header="Capitulos">
+			<p:panel id="panel-capitulo" header="Capitulos" rendered="#{volumeBean.manga.tipo == 'VIRTUAL' ? true : false}">
 				
 				<f:facet name="actions" id="botao-acao">
 					<p:commandButton styleClass="botao-novo" icon="fa fa-plus" actionListener="#{volumeBean.novoCapitulo}" 
@@ -101,13 +110,14 @@
 				<p:dataTable id="tabela-capitulo" value="#{volumeBean.volumeSelecionado.capitulos}" var="capitulo"
 					paginator="true" paginatorPosition="bottom" rows="3"
 					editable="true" editMode="cell" widgetVar="cellCapitulos"
+					rowStyleClass="#{capitulo.tem == true ? null : 'red'}"
 					emptyMessage="Nenhum registro foi encontrado.">
 					
 					<p:column headerText="Volume">
 						<h:outputText value="#{volumeBean.volumeSelecionado.nome}" />
 					</p:column>
 					
-					<p:column headerText="N&#250;mero">
+					<p:column headerText="N&#250;mero" styleClass="coluna-numero-capitulo">
 						<h:outputText value="#{capitulo.numero}" />
 					</p:column>
 					
@@ -117,7 +127,8 @@
 					
 					<p:column headerText="Tem" rendered="#{volumeBean.manga.tipo == 'VIRTUAL'}" styleClass="coluna-tem">
 						<p:selectBooleanCheckbox value="#{capitulo.tem}">
-							
+							<p:ajax partialSubmit="true" resetValues="true" listener="#{volumeBean.atualizarCheckCapitulo(capitulo, capitulo.tem)}"
+								update="tabela-capitulo form:tabela-volume"/>
 						</p:selectBooleanCheckbox>
 					</p:column>
 					
@@ -183,6 +194,21 @@
 					
 					<p:commandButton value="Save" action="#{volumeBean.saveCapitulo()}"
 						update="form form-capitulo:tabela-capitulo form-capitulo-dlg:panel-capitulo-dlg" style="float: right" />
+				</p:panel>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog widgetVar="dlgImagem" id="dlg-imagem" modal="true" resizable="fasle" header="Imagem">
+			<h:form id="form-imagem">
+				<p:panel id="panel-imagem">
+					<h:panelGrid columns="2">
+						<p:outputLabel for="nome" value="Nome:" />
+						<p:inputText id="nome" value="#{volumeBean.volume.nome}" disabled="true" />
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+						<p:fileUpload fileUploadListener="#{volumeBean.uploadImagem}" mode="advanced" dragDropSupport="false"
+           					update="form:tabela-volume" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+					</h:panelGrid>												
 				</p:panel>
 			</h:form>
 		</p:dialog>
