@@ -19,6 +19,7 @@ import org.primefaces.event.FileUploadEvent;
 import com.google.common.io.ByteStreams;
 import com.sun.faces.util.MessageUtils;
 
+import br.com.mp.controller.Images;
 import br.com.mp.model.manga.entity.Capitulo;
 import br.com.mp.model.manga.entity.ImagemManga;
 import br.com.mp.model.manga.entity.Manga;
@@ -56,6 +57,8 @@ public class VolumeBean implements Serializable {
 	private Capitulo capitulo;
 	
 	private ImagemManga imagem;
+	@Inject
+	private Images imageBean;
 
 	private Double somaTotal;
 
@@ -102,6 +105,7 @@ public class VolumeBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		atualizar();
+		this.imagem = new ImagemManga();
 	}
 
 	public void save() {
@@ -236,14 +240,25 @@ public class VolumeBean implements Serializable {
 
 	public void uploadImagem(FileUploadEvent event) throws IOException {
 		InputStream is = event.getFile().getInputstream();
-		
 		byte[] imagemBytes = ByteStreams.toByteArray(is);
 		
-		this.imagem = new ImagemManga();
-		this.imagem.setCodigoVolume(this.volume.getId());
+		Long codigoVolume = this.volume.getId(); 
 		
-		this.imagem.setImagem(imagemBytes);
-		this.imagemMangaService.save(imagem);
+		if(imageBean.get(codigoVolume)==null){
+			this.imagem.setCodigoVolume(codigoVolume);
+			
+			this.imagem.setImagem(imagemBytes);
+			this.imagemMangaService.save(imagem);
+		} else {
+			this.imagem = imagemMangaService.findByVolumeId(codigoVolume);
+			
+			this.imagem.setImagem(imagemBytes);
+			this.imagemMangaService.save(imagem);
+			
+			this.imageBean.get(codigoVolume);
+			this.imagem = new ImagemManga();
+		}
+		RequestContext.getCurrentInstance().update("form:tabela-volume");
 	}
 	
 	private void atualizar() {

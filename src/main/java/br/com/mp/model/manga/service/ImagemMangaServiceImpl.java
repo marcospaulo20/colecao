@@ -24,4 +24,9 @@ public class ImagemMangaServiceImpl extends ServiceAbstract<ImagemManga> impleme
 	public ImagemManga getImageBytes(Long volumeID) {
 		return imagemMangaDAO.findByVolume(volumeID);
 	}
+
+	@Override
+	public ImagemManga findByVolumeId(Long codigoVolume) {
+		return imagemMangaDAO.findByVolume(codigoVolume);
+	}
 }

@@ -26,7 +26,7 @@ public class ImagemManga implements Serializable {
 	@Type(type = "org.hibernate.type.BinaryType")
 	private byte[] imagem;
 	
-	@Column(name="cod_volume")
+	@Column(name="cod_volume", unique = true)
 	private Long codigoVolume;
 	
 	public Long getId() {

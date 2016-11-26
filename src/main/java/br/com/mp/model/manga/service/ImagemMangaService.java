@@ -6,4 +6,6 @@ import br.com.mp.util.service.Service;
 public interface ImagemMangaService extends Service<ImagemManga> {
 
 	ImagemManga getImageBytes(Long volumeID);
+
+	ImagemManga findByVolumeId(Long codigoVolume);
 }

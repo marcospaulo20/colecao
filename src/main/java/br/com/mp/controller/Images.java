@@ -13,7 +13,11 @@ public class Images {
 	private ImagemMangaService imagemMangaService;
 	
 	public byte[] get(Long id) {
-		return imagemMangaService.getImageBytes(id).getImagem();
+		try {
+			return imagemMangaService.getImageBytes(id).getImagem();
+		} catch(Exception e) {
+			return null;
+		}
 	}
 	
 }

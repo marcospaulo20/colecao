@@ -3,7 +3,8 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:o="http://omnifaces.org/ui">
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	
 	<ui:define name="conteudo">
 		<h:outputStylesheet library="css" name="mangas.css" />
@@ -25,7 +26,12 @@
 			    		<f:convertNumber type="currency" currencySymbol="R$" />
 			    	</h:outputText>
 			    	
-			    	Total Fatam:
+			    	Total *:
+			    	<h:outputText value="#{volumeBean.precoTotalTem()}">
+			    		<f:convertNumber type="currency" currencySymbol="R$" />
+			    	</h:outputText>
+			    	
+			    	Total **:
 			    	<h:outputText value="#{volumeBean.precoTotalFatam()}">
 			    		<f:convertNumber type="currency" currencySymbol="R$" />
 			    	</h:outputText>
@@ -38,12 +44,12 @@
 		    	</f:facet>
 		    	
 				<p:dataTable value="#{volumeBean.volumes}" var="volume" id="tabela-volume"
-					paginator="true" paginatorPosition="bottom" rows="15"
+					paginator="true" paginatorPosition="bottom" rows="3"
 					rowStyleClass="#{volume.tem == true ? null : 'red'}"
 					emptyMessage="Nenhum registro foi encontrado.">
 					
 					<p:column styleClass="coluna-imagem">
-						<o:graphicImage value="#{images.get(volume.id)}" width="80" height="100" />
+						<o:graphicImage value="#{images.get(volume.id)}" height="150" />
 					</p:column>
 					
 					<p:column headerText="Nome" styleClass="coluna-nome-volume">
@@ -73,7 +79,7 @@
 						</p:selectBooleanCheckbox>						
 					</p:column>
 					
-					<p:column headerText="Op&#231;&#240;es" styleClass="coluna-opcao-volume">
+					<p:column headerText="Op&#231;&#245;es" styleClass="coluna-opcao-volume">
 						<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgVolume').show();" update="form-volume:panel-volume" process="@this">
 							<f:setPropertyActionListener value="#{volume}" target="#{volumeBean.volume}" />
 						</p:commandButton>
@@ -95,6 +101,10 @@
 							<f:setPropertyActionListener value="#{volume}" target="#{volumeBean.volume}" />						
 						</p:commandButton>
 					</p:column>
+					
+					<f:facet name="footer">
+			        	No total h&#225; #{fn:length(volumeBean.volumes)} volumes.
+			    	</f:facet>
 				</p:dataTable>
 			</p:panel>
 		</h:form>
@@ -132,7 +142,7 @@
 						</p:selectBooleanCheckbox>
 					</p:column>
 					
-					<p:column headerText="Op&#231;&#240;es" styleClass="coluna-opcao">
+					<p:column headerText="Op&#231;&#245;es" styleClass="coluna-opcao">
 						<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgCapitulo').show();" update="form-capitulo-dlg" process="@this">
 							<f:setPropertyActionListener value="#{capitulo}" target="#{volumeBean.capitulo}" />
 						</p:commandButton>
@@ -205,9 +215,9 @@
 						<p:outputLabel for="nome" value="Nome:" />
 						<p:inputText id="nome" value="#{volumeBean.volume.nome}" disabled="true" />
 					</h:panelGrid>
-					<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
 						<p:fileUpload fileUploadListener="#{volumeBean.uploadImagem}" mode="advanced" dragDropSupport="false"
-           					update="form:tabela-volume" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+           					sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 					</h:panelGrid>												
 				</p:panel>
 			</h:form>
