@@ -1,0 +1,93 @@
+.coluna-nome {
+	width: 350px;
+}
+
+.coluna-autor {
+	width: 200px;
+}
+
+.coluna-editora {
+	width: 100px;
+}
+
+.coluna-numero-edicao {
+	text-align: center;
+	width: 80px;
+}
+
+.coluna-opcao {
+	text-align: center;
+	width: 80px;
+}
+
+.red {
+	background-color: red;
+	color: #fff;	
+}
+
+.yellow{
+	background-color: yellow;
+	color: #fff;
+}
+
+.coluna-preco {
+	text-align: right;
+	width: 70px;
+}
+
+.coluna-nome-edicao {
+	width: 100px;
+}
+
+.coluna-imagem {
+	width: 100px;
+}
+
+.coluna-opcao-edicao {
+	text-align: center;
+	width: 80px;
+}
+
+.coluna-data-publicacao {
+	text-align: center;
+	width: 100px;
+}
+
+.coluna-tem {
+	text-align: center;
+	width: 20px;
+}
+
+.coluna-leu {
+	text-align: center;
+	width: 20px;
+}
+
+.coluna-numero-capitulo {
+	text-align: center;
+	width: 80px;
+}
+
+.coluna-capitulo-nome {
+	width: 80px;
+}
+
+.coluna-escritor {
+	width: 100px;
+}
+
+.coluna-desenhista {
+	width: 100px;
+}
+
+#form-capitulo {
+	margin-top: 20px;
+}
+
+#panel-edicao-tabela {
+	margin-top: 20px;
+}
+
+.botao-novo {
+	float: right;	
+}

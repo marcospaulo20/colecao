@@ -1,4 +1,4 @@
-package br.com.mp.model.manga.entity;
+package br.com.mp.model.hq.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,7 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Volume implements Serializable {
+public class Edicao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,24 +28,18 @@ public class Volume implements Serializable {
 
 	private String nome;
 
-	private Double preco;
-
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_lancamento")
-	private Date dataLancamento;
+	@Column(name = "data_publicacao")
+	private Date dataPublicacao;
 
 	private Boolean tem = Boolean.FALSE;
+	
+	@OneToMany(mappedBy = "edicao", targetEntity = CapituloHQ.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<CapituloHQ> capitulos;
 
 	@ManyToOne
-	@JoinColumn(name = "manga_id")
-	private Manga manga;
-
-	@OneToMany(mappedBy = "volume", targetEntity = Capitulo.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Capitulo> capitulos;
-
-	public Volume() {
-		// TODO Auto-generated constructor stub
-	}
+	@JoinColumn(name = "hq_id")
+	private HQ hq;
 
 	public Long getId() {
 		return id;
@@ -59,20 +53,12 @@ public class Volume implements Serializable {
 		this.nome = nome;
 	}
 
-	public Double getPreco() {
-		return preco;
+	public Date getDataPublicacao() {
+		return dataPublicacao;
 	}
 
-	public void setPreco(Double preco) {
-		this.preco = preco;
-	}
-
-	public Date getDataLancamento() {
-		return dataLancamento;
-	}
-
-	public void setDataLancamento(Date dataLancamento) {
-		this.dataLancamento = dataLancamento;
+	public void setDataPublicacao(Date dataPublicacao) {
+		this.dataPublicacao = dataPublicacao;
 	}
 
 	public Boolean getTem() {
@@ -83,22 +69,22 @@ public class Volume implements Serializable {
 		this.tem = tem;
 	}
 
-	public Manga getManga() {
-		return manga;
-	}
-
-	public void setManga(Manga manga) {
-		this.manga = manga;
-	}
-
-	public List<Capitulo> getCapitulos() {
+	public List<CapituloHQ> getCapitulos() {
 		return capitulos;
 	}
 
-	public void setCapitulos(List<Capitulo> capitulos) {
+	public void setCapitulos(List<CapituloHQ> capitulos) {
 		this.capitulos = capitulos;
 	}
 
+	public HQ getHq() {
+		return hq;
+	}
+
+	public void setHq(HQ hq) {
+		this.hq = hq;
+	}
+	
 	public String quantidadeCapituloTem() {
 		return this.capitulos.stream().filter(c -> c.getTem() == true).count() + " de " + this.capitulos.size();
 	}
@@ -127,7 +113,7 @@ public class Volume implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Volume other = (Volume) obj;
+		Edicao other = (Edicao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

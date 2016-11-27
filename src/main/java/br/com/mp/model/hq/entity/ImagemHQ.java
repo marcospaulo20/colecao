@@ -1,4 +1,4 @@
-package br.com.mp.model.manga.entity;
+package br.com.mp.model.hq.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,11 +16,11 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "imagem_manga")
-public class ImagemManga implements Serializable {
+@Table(name = "imagem_hq")
+public class ImagemHQ implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -29,8 +29,8 @@ public class ImagemManga implements Serializable {
 	@Type(type = "org.hibernate.type.BinaryType")
 	private byte[] imagem;
 	
-	@Column(name="cod_volume", unique = true)
-	private Long codigoVolume;
+	@Column(name="cod_capitulo", unique = true)
+	private Long codigoCapitulo;
 	
 	@Column(name = "ultima_modificacao")
 	@Temporal(TemporalType.TIMESTAMP)	
@@ -48,12 +48,12 @@ public class ImagemManga implements Serializable {
 		this.imagem = imagem;
 	}
 	
-	public Long getCodigoVolume() {
-		return codigoVolume;
+	public Long getCodigoCapitulo() {
+		return codigoCapitulo;
 	}
 	
-	public void setCodigoVolume(Long codigoVolume) {
-		this.codigoVolume = codigoVolume;
+	public void setCodigoCapitulo(Long codigoCapitulo) {
+		this.codigoCapitulo = codigoCapitulo;
 	}
 	
 	public Date getUltimaModificacao() {

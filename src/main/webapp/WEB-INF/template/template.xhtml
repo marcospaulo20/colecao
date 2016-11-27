@@ -20,8 +20,15 @@
 				<p:menubar>
 					<p:menuitem value="Home" url="/index.xhtml" icon="fa fa-home" />
 				
-        			<p:submenu label="Livro" icon="fa fa-book">            			
-            			<p:menuitem value="Manga" url="/pages/manga/mangas.xhtml" />            				
+        			<p:submenu label="Livro" icon="fa fa-book">
+        				<p:menuitem value="HQ" url="/pages/hq/hqs.xhtml" />
+            			<p:menuitem value="Manga" url="/pages/manga/mangas.xhtml" />
+			        </p:submenu>
+			        
+			        <p:submenu label="Televisao" icon="fa fa-video-camera">
+			        	<p:menuitem value="Anime" url="/pages/anime/animes.xhtml" />
+			        	<p:menuitem value="Serie" url="/pages/serie/series.xhtml" />
+			        	<p:menuitem value="Filme" url="#" />
 			        </p:submenu>
 				</p:menubar>
 			</h:form>		

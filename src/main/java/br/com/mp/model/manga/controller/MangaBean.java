@@ -82,7 +82,7 @@ public class MangaBean implements Serializable {
 	}
 	
 	public void atualizar() {
-		this.mangas = mangaService.listFilter(Tipo.FISICO);
+		this.mangas = mangaService.list();
 		this.manga = new Manga();
 	}
 	
@@ -96,10 +96,14 @@ public class MangaBean implements Serializable {
 	}
 
 	public Long quantidadeMangaFisico() {
-		return this.mangaService.listFilter(Tipo.FISICO).stream().count();
+		return this.mangas.stream().filter(m->m.getTipo().equals(Tipo.FISICO)).count();
 	}
 	
 	public Long quantidadeMangaVirtual() {
-		return this.mangaService.listFilter(Tipo.VIRTUAL).stream().count();
+		return this.mangas.stream().filter(m->m.getTipo().equals(Tipo.VIRTUAL)).count();
+	}
+	
+	public int quantidadeTotalManga() {
+		return this.mangas.size();
 	}
 }

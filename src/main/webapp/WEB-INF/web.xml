@@ -43,7 +43,7 @@
 		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
 		<param-value>true</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>primefaces.UPLOADER</param-name>
 		<param-value>auto</param-value>
@@ -52,6 +52,15 @@
 	<listener>
 		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
 	</listener>
+
+	<filter>
+		<filter-name>noCache</filter-name>
+		<filter-class>org.omnifaces.filter.CacheControlFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>noCache</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<resource-env-ref>
 		<resource-env-ref-name>BeanManager</resource-env-ref-name>
@@ -66,7 +75,7 @@
 		<extension>eot</extension>
 		<mime-type>application/vnd.ms-fontobject</mime-type>
 	</mime-mapping>
-	<mime-mapping>	
+	<mime-mapping>
 		<extension>otf</extension>
 		<mime-type>font/opentype</mime-type>
 	</mime-mapping>

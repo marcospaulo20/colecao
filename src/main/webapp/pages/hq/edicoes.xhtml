@@ -1,0 +1,228 @@
+<ui:composition template="../../WEB-INF/template/template.xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:define name="conteudo">
+		<h:outputStylesheet library="css" name="hqs.css" />
+		<h:outputScript library="js" name="locale_pt_BR.js" />
+		
+		<h:form id="form">
+		    <p:panel>
+		    	<p:breadCrumb>
+				    <p:menuitem url="/index.xhtml" />
+				    <p:menuitem value="Titulos" url="/pages/hq/hqs.xhtml" />
+				    <p:menuitem value="#{edicaoBean.hq.nome}" url="#" />				    
+				</p:breadCrumb>
+		    </p:panel>
+		    
+		    <p:panel header="Edi&#231;&#245;es" id="panel-edicao-tabela">
+		    	<f:facet name="actions">
+		    		<p:commandButton styleClass="botao-novo" icon="fa fa-plus" actionListener="#{edicaoBean.novo}" oncomplete="PF('dlgEdicao').show();" update="dlg-edicao" />
+		    	</f:facet>
+		    	
+				<p:dataTable value="#{edicaoBean.edicoes}" var="edicao" id="tabela-edicao"
+					paginator="true" paginatorPosition="bottom" rows="3"
+					rowStyleClass="#{edicao.tem == true ? null : 'red'}"
+					emptyMessage="Nenhum registro foi encontrado.">
+					
+					<p:column headerText="Nome" styleClass="coluna-nome-edicao">
+						<h:outputText value="#{edicao.nome}" />
+					</p:column>
+					
+					<p:column headerText="Data publica&#231;&#227;o" styleClass="coluna-data-publicacao">
+						<h:outputText value="#{edicao.dataPublicacao}">
+							<f:convertDateTime locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="N&#176; capitulos" styleClass="coluna-numero-capitulo">
+						<h:outputText value="#{edicao.capitulos == null ? 0 : edicao.quantidadeCapituloTem()}"/>
+					</p:column>
+					
+					<p:column headerText="N&#176; capitulos ja lidos" styleClass="coluna-numero-capitulo">
+						<h:outputText value="#{edicao.capitulos == null ? 0 : edicao.quantidadeCapituloQueLeu()}"/>
+					</p:column>
+					
+					<p:column headerText="Tem" styleClass="coluna-tem">
+						<p:selectBooleanCheckbox value="#{edicao.tem}">
+							<p:ajax partialSubmit="true" resetValues="true" listener="#{edicaoBean.atualizarCheck(edicao, edicao.tem)}"
+								update="form:tabela-edicao" />
+						</p:selectBooleanCheckbox>		
+					</p:column>
+					
+					<p:column headerText="Op&#231;&#245;es" styleClass="coluna-opcao-edicao">
+						<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgEdicao').show();" update="form-edicao:panel-edicao" process="@this">
+							<f:setPropertyActionListener value="#{edicao}" target="#{edicaoBean.edicao}" />
+						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-trash" update="form" process="@this" action="#{edicaoBean.remove()}">
+							<f:setPropertyActionListener value="#{edicao}" target="#{edicaoBean.edicao}" />
+							<p:confirm header="Excluir" message="Confirma exclus&#227;o?" icon="ui-icon-alert" />
+							<p:confirmDialog header="Exluir" global="true" showEffect="fade" hideEffect="fade">
+								<p:commandButton  value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					     		<p:commandButton value="N&#227;o" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					   		</p:confirmDialog>				
+						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-search" update="form-capitulo:panel-capitulo form-capitulo:tabela-capitulo">
+							<f:setPropertyActionListener value="#{edicao}" target="#{edicaoBean.edicaoSelecionado}" />						
+						</p:commandButton>
+					</p:column>
+					
+					<f:facet name="footer">
+			        	No total h&#225; #{fn:length(edicaoBean.edicoes)} edi&#231;&#245;es.
+			    	</f:facet>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+		
+		<h:form id="form-capitulo">
+			<p:panel id="panel-capitulo" header="Capitulos">
+				
+				<f:facet name="actions" id="botao-acao">
+					<p:commandButton styleClass="botao-novo" icon="fa fa-plus" actionListener="#{edicaoBean.novoCapitulo}" 
+						oncomplete="PF('dlgCapitulo').show();" update="dlg-capitulo"/>
+				</f:facet>	
+				
+				<p:dataTable id="tabela-capitulo" value="#{edicaoBean.edicaoSelecionado.capitulos}" var="capitulo"
+					paginator="true" paginatorPosition="bottom" rows="3"
+					editable="true" editMode="cell" widgetVar="cellCapitulos"
+					rowStyleClass="#{capitulo.tem == true ? null : 'red'}"
+					emptyMessage="Nenhum registro foi encontrado.">
+					
+					<p:column styleClass="coluna-imagem">
+						<o:graphicImage value="#{imagesHQ.get(capitulo.id)}"
+							lastModified="#{edicaoBean.getUltimaModificaoFoto(capitulo.id)}" height="150" />
+					</p:column>
+					
+					<p:column headerText="Edi&#231;&#227;o">
+						<h:outputText value="#{edicaoBean.edicaoSelecionado.nome}" />
+					</p:column>
+					
+					<p:column headerText="N&#250;mero" styleClass="coluna-numero-capitulo">
+						<h:outputText value="#{capitulo.numero}" />
+					</p:column>
+					
+					<p:column headerText="Nome" styleClass="coluna-capitulo-nome">
+						<h:outputText value="#{capitulo.nome}" />
+					</p:column>
+					
+					<p:column headerText="Escritor" styleClass="coluna-escritor">
+						<h:outputText value="#{capitulo.escritor}" />
+					</p:column>
+					
+					<p:column headerText="Desenhista" styleClass="coluna-desenhista">
+						<h:outputText value="#{capitulo.desenhista}" />
+					</p:column>
+					
+					<p:column headerText="Tem" styleClass="coluna-tem">
+						<p:selectBooleanCheckbox value="#{capitulo.tem}">
+							<p:ajax partialSubmit="true" resetValues="true" listener="#{edicaoBean.atualizarCheckCapitulo(capitulo, capitulo.tem)}"
+								update="tabela-capitulo form:tabela-edicao"/>
+						</p:selectBooleanCheckbox>
+					</p:column>
+					
+					<p:column headerText="Leu" styleClass="coluna-leu">
+						<p:selectBooleanCheckbox value="#{capitulo.leu}">
+							<p:ajax partialSubmit="true" resetValues="true" listener="#{edicaoBean.atualizarCheckLiCapitulo(capitulo, capitulo.leu)}"
+								update="tabela-capitulo form:tabela-edicao"/>
+						</p:selectBooleanCheckbox>
+					</p:column>
+					
+					<p:column headerText="Op&#231;&#245;es" styleClass="coluna-opcao">
+						<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgCapitulo').show();" update="form-capitulo-dlg" process="@this">
+							<f:setPropertyActionListener value="#{capitulo}" target="#{edicaoBean.capituloHQ}" />
+						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-trash" update="form form-capitulo:tabela-capitulo" process="@this" action="#{edicaoBean.removeCapitulo()}">
+							<f:setPropertyActionListener value="#{capitulo}" target="#{edicaoBean.capituloHQ}" />
+							<p:confirm header="Excluir" message="Confirma exclus&#227;o?" icon="ui-icon-alert" />
+							<p:confirmDialog header="Exluir" global="true" showEffect="fade" hideEffect="fade">
+								<p:commandButton  value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					     		<p:commandButton value="N&#227;o" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					   		</p:confirmDialog>
+						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-image" oncomplete="PF('dlgImagem').show();" update="form-imagem:panel-imagem">
+							<f:setPropertyActionListener value="#{capitulo}" target="#{edicaoBean.capituloHQ}" />						
+						</p:commandButton>
+					</p:column>	
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+		
+		<p:dialog widgetVar="dlgEdicao" id="dlg-edicao" modal="true" resizable="fasle" header="Edi&#231;&#227;o">
+			<h:form id="form-edicao">
+				<p:panel id="panel-edicao">
+					<h:panelGrid columns="2">
+						<p:outputLabel for="nome" value="Nome:" />
+						<p:inputText id="nome" value="#{edicaoBean.edicao.nome}" required="true" />
+						
+						<p:outputLabel for="data-publicacao" value="Data publicacao:" />
+						<p:calendar id="data-publicacao" value="#{edicaoBean.edicao.dataPublicacao}" pattern="dd/MM/yyyy"
+							mask="true" locale="pt_BR" navigator="true" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="2">
+						<p:outputLabel for="tem" value="Tem:" />
+						<p:selectBooleanCheckbox id="tem" value="#{edicaoBean.edicao.tem}" />
+					</h:panelGrid>
+					
+					<p:commandButton value="Save" action="#{edicaoBean.save()}" update="form:tabela-edicao form-edicao:panel-edicao" style="float: right" />
+				</p:panel>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog widgetVar="dlgCapitulo" id="dlg-capitulo" modal="true" resizable="fasle" header="Capitulo">
+			<h:form id="form-capitulo-dlg">
+				<p:panel id="panel-capitulo-dlg">
+					<h:panelGrid columns="2">
+						<p:outputLabel for="numero" value="N&#250;mero:" />
+						<p:inputNumber id="numero" value="#{edicaoBean.capituloHQ.numero}" decimalPlaces="0" />
+						
+						<p:outputLabel for="nome" value="Nome:" />
+						<p:inputText id="nome" value="#{edicaoBean.capituloHQ.nome}" required="true" />
+					
+						<p:outputLabel for="data-capa" value="Data capa:" />
+						<p:calendar id="data-capa" value="#{edicaoBean.capituloHQ.dataCapa}" pattern="dd/MM/yyyy"
+							mask="true" locale="pt_BR" navigator="true" />
+						
+						<p:outputLabel for="escritor" value="Escritor:" />
+						<p:inputText id="escritor" value="#{edicaoBean.capituloHQ.escritor}" required="true" />
+					
+						<p:outputLabel for="desenhista" value="Desenhista:" />
+						<p:inputText id="desenhista" value="#{edicaoBean.capituloHQ.desenhista}" required="true" />
+						
+						<p:outputLabel for="tem" value="Tem:" />
+						<p:selectBooleanCheckbox id="tem" value="#{edicaoBean.capituloHQ.tem}" />
+						
+						<p:outputLabel for="leu" value="Leu:" />
+						<p:selectBooleanCheckbox id="leu" value="#{edicaoBean.capituloHQ.leu}" />
+					</h:panelGrid>												
+					
+					<p:commandButton value="Save" action="#{edicaoBean.saveCapitulo()}"
+						update="form form-capitulo:tabela-capitulo form-capitulo-dlg:panel-capitulo-dlg" style="float: right" />
+				</p:panel>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog widgetVar="dlgImagem" id="dlg-imagem" modal="true" resizable="fasle" header="Imagem">
+			<h:form id="form-imagem">
+				<p:panel id="panel-imagem">
+					<h:panelGrid columns="2">
+						<p:outputLabel for="nome" value="Nome:" />
+						<p:inputText id="nome" value="#{edicaoBean.edicao.nome}" disabled="true" />
+					</h:panelGrid>
+					<h:panelGrid columns="1">
+						<p:fileUpload fileUploadListener="#{edicaoBean.uploadImagem}" mode="advanced" dragDropSupport="false"
+           					sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+					</h:panelGrid>		
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

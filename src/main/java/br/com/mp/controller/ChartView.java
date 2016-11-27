@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import org.primefaces.model.chart.PieChartModel;
 
+import br.com.mp.model.hq.controller.HQBean;
 import br.com.mp.model.manga.controller.MangaBean;
 
 @Named
@@ -17,13 +18,28 @@ public class ChartView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	private PieChartModel pieLivroChartModel;
+	
 	private PieChartModel pieMangaChartModel;
+	
+	private PieChartModel pieHQChartModel;
 	
 	@Inject
 	private MangaBean mangaBean;
 	
+	@Inject
+	private HQBean hqBean;
+	
+	public PieChartModel getPieLivroChartModel() {
+		return pieLivroChartModel;
+	}
+	
 	public PieChartModel getPieMangaChartModel() {
 		return pieMangaChartModel;
+	}
+	
+	public PieChartModel getPieHQChartModel() {
+		return pieHQChartModel;
 	}
 	
 	@PostConstruct
@@ -32,7 +48,20 @@ public class ChartView implements Serializable {
 	}
 
 	private void createPieModels() {
+		createPieLivroChartModel();
 		createPieMangaChartModel();
+		createPieHQChartModel();
+	}
+	
+	private void createPieLivroChartModel() {
+		pieLivroChartModel = new PieChartModel();
+		
+		pieLivroChartModel.set("HQs", hqBean.quantidadeTotalHQ());
+		pieLivroChartModel.set("Mangas", mangaBean.quantidadeTotalManga());
+		
+		pieLivroChartModel.setTitle("Livro");
+		pieLivroChartModel.setLegendPosition("w");
+		pieLivroChartModel.setShowDataLabels(true);
 	}
 
 	private void createPieMangaChartModel() {
@@ -45,5 +74,16 @@ public class ChartView implements Serializable {
 		pieMangaChartModel.setLegendPosition("w");
 		pieMangaChartModel.setShowDataLabels(true);
 	}
+	
+	private void createPieHQChartModel() {
+		pieHQChartModel = new PieChartModel();
+		
+		pieHQChartModel.set("DC Comics", hqBean.quantidadeEditoraDC());
+		pieHQChartModel.set("Marvel", hqBean.quantidadeEditoraMarvel());
+		
+		pieHQChartModel.setTitle("HQs");
+		pieHQChartModel.setLegendPosition("w");
+		pieHQChartModel.setShowDataLabels(true);
+	}		
 
 }

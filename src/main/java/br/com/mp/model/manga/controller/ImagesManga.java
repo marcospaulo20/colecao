@@ -1,4 +1,4 @@
-package br.com.mp.controller;
+package br.com.mp.model.manga.controller;
 
 import javax.inject.Inject;
 
@@ -7,7 +7,7 @@ import org.omnifaces.cdi.GraphicImageBean;
 import br.com.mp.model.manga.service.ImagemMangaService;
 
 @GraphicImageBean
-public class Images {
+public class ImagesManga {
 
 	@Inject
 	private ImagemMangaService imagemMangaService;

@@ -22,7 +22,7 @@
 	            </h:panelGrid>
 			</p:panel>
 			<p:dataTable value="#{mangaBean.mangas}" var="manga" id="tabela-manga"
-				paginator="true" paginatorPosition="bottom" widgetVar="mangasTabela"
+				paginator="true" paginatorPosition="bottom" widgetVar="mangasTabela" rows="15"
 				emptyMessage="Nenhum registro foi encontrado.">
 				
 				<p:column headerText="Nome" styleClass="coluna-nome" sortBy="#{manga.nome}"

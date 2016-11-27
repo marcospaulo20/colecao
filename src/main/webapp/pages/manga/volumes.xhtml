@@ -49,7 +49,8 @@
 					emptyMessage="Nenhum registro foi encontrado.">
 					
 					<p:column styleClass="coluna-imagem">
-						<o:graphicImage value="#{images.get(volume.id)}" height="150" />
+						<o:graphicImage value="#{imagesManga.get(volume.id)}" 
+							lastModified="#{volumeBean.getUltimaModificaoFoto(volume.id)}" height="150" />
 					</p:column>
 					
 					<p:column headerText="Nome" styleClass="coluna-nome-volume">
@@ -138,6 +139,13 @@
 					<p:column headerText="Tem" rendered="#{volumeBean.manga.tipo == 'VIRTUAL'}" styleClass="coluna-tem">
 						<p:selectBooleanCheckbox value="#{capitulo.tem}">
 							<p:ajax partialSubmit="true" resetValues="true" listener="#{volumeBean.atualizarCheckCapitulo(capitulo, capitulo.tem)}"
+								update="tabela-capitulo form:tabela-volume"/>
+						</p:selectBooleanCheckbox>
+					</p:column>
+					
+					<p:column headerText="Leu" rendered="#{volumeBean.manga.tipo == 'VIRTUAL'}" styleClass="coluna-tem">
+						<p:selectBooleanCheckbox value="#{capitulo.leu}">
+							<p:ajax partialSubmit="true" resetValues="true" listener="#{volumeBean.atualizarCheckLeuCapitulo(capitulo, capitulo.leu)}"
 								update="tabela-capitulo form:tabela-volume"/>
 						</p:selectBooleanCheckbox>
 					</p:column>

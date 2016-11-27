@@ -9,6 +9,11 @@
 		<class>br.com.mp.model.manga.entity.Capitulo</class>
 		<class>br.com.mp.model.manga.entity.ImagemManga</class>
 		
+		<class>br.com.mp.model.hq.entity.HQ</class>
+		<class>br.com.mp.model.hq.entity.Edicao</class>
+		<class>br.com.mp.model.hq.entity.CapituloHQ</class>
+		<class>br.com.mp.model.hq.entity.ImagemHQ</class>
+		
 		<properties>
 			 <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 			 <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/colecao" ></property>

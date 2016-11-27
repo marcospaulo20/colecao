@@ -5,6 +5,12 @@
 	xmlns:p="http://primefaces.org/ui">
 	
 	<ui:define name="conteudo">
-		<p:chart type="pie" model="#{chartView.pieMangaChartModel}" style="width:400px;height:300px" />	
+		<h:panelGrid columns="3">
+			<p:chart type="pie" model="#{chartView.pieLivroChartModel}" style="width:400px;height:300px" />
+			
+			<p:chart type="pie" model="#{chartView.pieHQChartModel}" style="width:400px;height:300px" />
+			
+			<p:chart type="pie" model="#{chartView.pieMangaChartModel}" style="width:400px;height:300px" />
+		</h:panelGrid>
 	</ui:define>
-</ui:composition>		
+</ui:composition>

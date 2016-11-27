@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +20,6 @@ import org.primefaces.event.FileUploadEvent;
 import com.google.common.io.ByteStreams;
 import com.sun.faces.util.MessageUtils;
 
-import br.com.mp.controller.Images;
 import br.com.mp.model.manga.entity.Capitulo;
 import br.com.mp.model.manga.entity.ImagemManga;
 import br.com.mp.model.manga.entity.Manga;
@@ -58,7 +58,7 @@ public class VolumeBean implements Serializable {
 	
 	private ImagemManga imagem;
 	@Inject
-	private Images imageBean;
+	private ImagesManga imageMangaBean;
 
 	private Double somaTotal;
 
@@ -235,7 +235,14 @@ public class VolumeBean implements Serializable {
 			this.capituloService.save(capitulo);
 			this.volumeService.listByManga(manga);
 		}	
-			
+	}
+	
+	public void atualizarCheckLeuCapitulo(Capitulo capitulo, boolean checkSelection) {
+		if(capitulo != null) {
+			capitulo.setLeu(checkSelection);
+			this.capituloService.save(capitulo);
+			this.volumeService.listByManga(manga);
+		}	
 	}
 
 	public void uploadImagem(FileUploadEvent event) throws IOException {
@@ -244,18 +251,20 @@ public class VolumeBean implements Serializable {
 		
 		Long codigoVolume = this.volume.getId(); 
 		
-		if(imageBean.get(codigoVolume)==null){
+		if(imageMangaBean.get(codigoVolume)==null){
 			this.imagem.setCodigoVolume(codigoVolume);
+			this.imagem.setUltimaModificacao(obterDataHoraAtual());
 			
 			this.imagem.setImagem(imagemBytes);
 			this.imagemMangaService.save(imagem);
 		} else {
 			this.imagem = imagemMangaService.findByVolumeId(codigoVolume);
 			
+			this.imagem.setUltimaModificacao(obterDataHoraAtual());
 			this.imagem.setImagem(imagemBytes);
 			this.imagemMangaService.save(imagem);
 			
-			this.imageBean.get(codigoVolume);
+			this.imageMangaBean.get(codigoVolume);
 			this.imagem = new ImagemManga();
 		}
 		RequestContext.getCurrentInstance().update("form:tabela-volume");
@@ -266,6 +275,15 @@ public class VolumeBean implements Serializable {
 		this.volume = new Volume();
 		this.volumeSelecionado = new Volume();
 	}
+	
+	public Date getUltimaModificaoFoto(Long id) { 
+		try {
+			Date dataHoraFoto = imagemMangaService.findByVolumeId(id).getUltimaModificacao();
+			return dataHoraFoto == null ? obterDataHoraAtual() : dataHoraFoto;
+		} catch(Exception e) {
+			return null;
+		}
+	}
 
 	private Manga buscarMangaPorUrl() {
 		String codigoManga = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
@@ -273,6 +291,10 @@ public class VolumeBean implements Serializable {
 		if (codigoManga != null)
 			return mangaService.find(Long.parseLong(codigoManga));
 		return null;
+	}
+	
+	private Date obterDataHoraAtual() {
+		return new Date();
 	}
 
 }

@@ -1,7 +1,9 @@
-package br.com.mp.model.manga.entity;
+package br.com.mp.model.hq.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,10 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "capitulo_manga")
-public class Capitulo implements Serializable {
+@Table(name = "capitulo_hq")
+public class CapituloHQ implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,17 +28,21 @@ public class Capitulo implements Serializable {
 
 	private Integer numero;
 
-	private Boolean tem = Boolean.FALSE;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_capa")
+	private Date dataCapa;
 
+	private String escritor;
+
+	private String desenhista;
+
+	private Boolean tem = Boolean.FALSE;
+	
 	private Boolean leu = Boolean.FALSE;
 
 	@ManyToOne
-	@JoinColumn(name = "volume_id")
-	private Volume volume;
-
-	public Capitulo() {
-		// TODO Auto-generated constructor stub
-	}
+	@JoinColumn(name = "edicao_id")
+	private Edicao edicao;
 
 	public Long getId() {
 		return id;
@@ -56,6 +64,14 @@ public class Capitulo implements Serializable {
 		this.numero = numero;
 	}
 
+	public Date getDataCapa() {
+		return dataCapa;
+	}
+
+	public void setDataCapa(Date dataCapa) {
+		this.dataCapa = dataCapa;
+	}
+
 	public Boolean getTem() {
 		return tem;
 	}
@@ -67,21 +83,33 @@ public class Capitulo implements Serializable {
 	public Boolean getLeu() {
 		return leu;
 	}
-
+	
 	public void setLeu(Boolean leu) {
 		this.leu = leu;
 	}
-
-	public Volume getVolume() {
-		return volume;
+	
+	public String getDesenhista() {
+		return desenhista;
 	}
 
-	public void setVolume(Volume volume) {
-		this.volume = volume;
+	public void setDesenhista(String desenhista) {
+		this.desenhista = desenhista;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public String getEscritor() {
+		return escritor;
+	}
+
+	public void setEscritor(String escritor) {
+		this.escritor = escritor;
+	}
+
+	public Edicao getEdicao() {
+		return edicao;
+	}
+
+	public void setEdicao(Edicao edicao) {
+		this.edicao = edicao;
 	}
 
 	@Override
@@ -100,7 +128,7 @@ public class Capitulo implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Capitulo other = (Capitulo) obj;
+		CapituloHQ other = (CapituloHQ) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
