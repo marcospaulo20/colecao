@@ -93,6 +93,18 @@ public class HQBean implements Serializable {
 		return this.hqs.stream().filter(h->h.getEditora().equals(TipoEditora.MARVEL)).count();
 	}
 	
+	public Number quantidadeEditoraVertigo() {
+		return this.hqs.stream().filter(h->h.getEditora().equals(TipoEditora.VERTIGO)).count();	
+	}
+
+	public Number quantidadeEditoraImage() {
+		return this.hqs.stream().filter(h->h.getEditora().equals(TipoEditora.IMAGE)).count();	
+	}
+	
+	public Number quantidadeEditoraIcon() {
+		return this.hqs.stream().filter(h->h.getEditora().equals(TipoEditora.ICON)).count();	
+	}
+	
 	public int quantidadeTotalHQ() {
 		return this.hqs.size();
 	}

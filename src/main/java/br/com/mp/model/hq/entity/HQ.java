@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +23,8 @@ public class HQ implements Serializable {
 	private Long id;
 	
 	private String nome;
-	
+
+	@Enumerated(EnumType.STRING)
 	private TipoEditora editora;
 	
 	@OneToMany(mappedBy = "hq", targetEntity = Edicao.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -14,6 +14,14 @@
 		<class>br.com.mp.model.hq.entity.CapituloHQ</class>
 		<class>br.com.mp.model.hq.entity.ImagemHQ</class>
 		
+		<class>br.com.mp.model.serie.entity.Serie</class>
+		<class>br.com.mp.model.serie.entity.TemporadaSerie</class>
+		<class>br.com.mp.model.serie.entity.EpisodioSerie</class>
+		<class>br.com.mp.model.serie.entity.ImagemSerie</class>
+		
+		<class>br.com.mp.model.filme.entity.Filme</class>
+		<class>br.com.mp.model.filme.entity.ImagemFilme</class>
+		
 		<properties>
 			 <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 			 <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/colecao" ></property>
@@ -21,7 +29,7 @@
 			 <property name="javax.persistence.jdbc.password" value="root" />
 			 <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			 <property name="hibernate.connection.shutdown" value="true" />
-			 <property name="hibernate.hbm2ddl.auto" value="create" />
+			 <property name="hibernate.hbm2ddl.auto" value="validate" />
 			 <property name="hibernate.show_sql" value="true" />
 			 <property name="hibernate.format_sql" value="false"/>					
 		</properties>

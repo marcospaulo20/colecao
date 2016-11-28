@@ -3,6 +3,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	
 	<ui:define name="conteudo">
@@ -15,15 +16,21 @@
 		            <p:selectOneMenu id="tipo" value="#{mangaBean.tipo}" style="width:150px">
 		                <p:ajax listener="#{mangaBean.onTipoChange}" update="tabela-manga"
 		                	oncomplete="PF('mangasTabela').clearFilters();" />
-		               <f:selectItems value="#{mangaBean.tipos}" var="t" itemLabel="#{t.label}" itemValue="#{t}" />                               
+		                <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+		               	<f:selectItems value="#{mangaBean.tipos}" var="t" itemLabel="#{t.label}" itemValue="#{t}" />                               
 		            </p:selectOneMenu>
 		            
 		            <p:commandButton icon="fa fa-plus" actionListener="#{mangaBean.novo}" oncomplete="PF('dlgManga').show();" update="dlg-manga" />
 	            </h:panelGrid>
 			</p:panel>
 			<p:dataTable value="#{mangaBean.mangas}" var="manga" id="tabela-manga"
-				paginator="true" paginatorPosition="bottom" widgetVar="mangasTabela" rows="15"
+				paginator="true" paginatorPosition="bottom" widgetVar="mangasTabela" rows="3"
 				emptyMessage="Nenhum registro foi encontrado.">
+				
+				<p:column styleClass="coluna-imagem" headerText="Capa">
+					<o:graphicImage value="#{imagesManga.get(manga.volumes[0].id)}"
+						lastModified="#{volumeBean.getUltimaModificaoFoto(manga.volumes[0].id)}" height="150" />
+				</p:column>
 				
 				<p:column headerText="Nome" styleClass="coluna-nome" sortBy="#{manga.nome}"
 					filterBy="#{manga.nome}">
@@ -39,12 +46,20 @@
 				<p:column headerText="Editora" styleClass="coluna-editora" sortBy="#{manga.editora}">
 					<h:outputText value="#{manga.editora}" />
 				</p:column>
+
+				<p:column headerText="Ano publica&#231;&#227;o" styleClass="coluna-ano-publicacao" sortBy="#{manga.anoPublicacao}">
+					<h:outputText value="#{manga.anoPublicacao}" />
+				</p:column>
 				
-				<p:column headerText="N&#176; Volumes" styleClass="coluna-numero-volume">
+				<p:column headerText="Tipo" styleClass="coluna-ano-publicacao" sortBy="#{manga.tipo}">
+					<h:outputText value="#{manga.tipo.label}" />
+				</p:column>
+				
+				<p:column headerText="N&#176; volumes" styleClass="coluna-numero-volume">
 					<h:outputText value="#{manga.volumes == null ? 0 : manga.quantidadeVolume()}" />
 				</p:column>
 				
-				<p:column headerText="Op&#231;&#240;es" styleClass="coluna-opcao">
+				<p:column headerText="Op&#231;&#245;es" styleClass="coluna-opcao">
 					<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgManga').show();" update="dlg-manga">
 						<f:setPropertyActionListener value="#{manga}" target="#{mangaBean.manga}" />
 					</p:commandButton>
@@ -94,6 +109,10 @@
 						
 						<p:outputLabel for="editora" value="Editora:" />
 						<p:inputText id="editora" value="#{mangaBean.manga.editora}" required="true" />
+						
+						<p:outputLabel for="ano-publicacao" value="Ano publica&#231;&#227;o:" />
+						<p:inputText id="ano-publicacao" value="#{mangaBean.manga.anoPublicacao}" 
+						 	maxlength="4" required="true" />
 						
 						<p:outputLabel value="Tipo:" />
 						<p:selectOneMenu id="tipo" value="#{mangaBean.manga.tipo}" style="width:150px">

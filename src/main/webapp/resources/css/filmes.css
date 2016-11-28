@@ -1,0 +1,50 @@
+.coluna-nome {
+	width: 350px;
+}
+
+.coluna-ano-lancamento {
+	text-align: center;
+	width: 80px;
+}
+
+.coluna-classificacao {
+	text-align: center;
+	width: 80px;
+}
+
+.coluna-opcao {
+	text-align: center;
+	width: 80px;
+}
+
+.red {
+	background-color: red;
+	color: #fff;	
+}
+
+.yellow{
+	background-color: yellow;
+	color: #fff;
+}
+
+.coluna-duracao {
+	width: 70px;
+}
+
+.coluna-imagem {
+	width: 100px;
+}
+
+.coluna-tem {
+	text-align: center;
+	width: 20px;
+}
+
+.coluna-assistir {
+	text-align: center;
+	width: 30px;
+}
+
+.botao-novo {
+	float: right;	
+}

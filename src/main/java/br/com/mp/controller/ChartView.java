@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import org.primefaces.model.chart.PieChartModel;
 
+import br.com.mp.model.filme.controller.FilmeBean;
 import br.com.mp.model.hq.controller.HQBean;
 import br.com.mp.model.manga.controller.MangaBean;
 
@@ -24,11 +25,17 @@ public class ChartView implements Serializable {
 	
 	private PieChartModel pieHQChartModel;
 	
+	private PieChartModel pieFilmeChartModel;
+	private PieChartModel pieFilmeAssistidoChartModel;
+	
 	@Inject
 	private MangaBean mangaBean;
 	
 	@Inject
 	private HQBean hqBean;
+	
+	@Inject
+	private FilmeBean filmeBean;
 	
 	public PieChartModel getPieLivroChartModel() {
 		return pieLivroChartModel;
@@ -42,6 +49,14 @@ public class ChartView implements Serializable {
 		return pieHQChartModel;
 	}
 	
+	public PieChartModel getPieFilmeChartModel() {
+		return pieFilmeChartModel;
+	}
+	
+	public PieChartModel getPieFilmeAssistidoChartModel() {
+		return pieFilmeAssistidoChartModel;
+	}
+	
 	@PostConstruct
 	public void init() { 
 		createPieModels();
@@ -51,6 +66,8 @@ public class ChartView implements Serializable {
 		createPieLivroChartModel();
 		createPieMangaChartModel();
 		createPieHQChartModel();
+		createPieFilmeChartModel();
+		createPieFilmeAssistidoChartModel();
 	}
 	
 	private void createPieLivroChartModel() {
@@ -80,10 +97,35 @@ public class ChartView implements Serializable {
 		
 		pieHQChartModel.set("DC Comics", hqBean.quantidadeEditoraDC());
 		pieHQChartModel.set("Marvel", hqBean.quantidadeEditoraMarvel());
+		pieHQChartModel.set("Vertigo", hqBean.quantidadeEditoraVertigo());
+		pieHQChartModel.set("Icon Comics", hqBean.quantidadeEditoraIcon());
+		pieHQChartModel.set("Image", hqBean.quantidadeEditoraImage());
 		
 		pieHQChartModel.setTitle("HQs");
 		pieHQChartModel.setLegendPosition("w");
 		pieHQChartModel.setShowDataLabels(true);
-	}		
+	}
+
+	private void createPieFilmeChartModel() {
+		pieFilmeChartModel = new PieChartModel();
+		
+		pieFilmeChartModel.set("Tem", filmeBean.quantidadeTotalFilmeTem());
+		pieFilmeChartModel.set("Não Tenho", filmeBean.quantidadeTotalFilmeNaoTem());
+		
+		pieFilmeChartModel.setTitle("Filmes");
+		pieFilmeChartModel.setLegendPosition("w");
+		pieFilmeChartModel.setShowDataLabels(true);
+	}
+	
+	private void createPieFilmeAssistidoChartModel() {
+		pieFilmeAssistidoChartModel = new PieChartModel();
+		
+		pieFilmeAssistidoChartModel.set("Assistir", filmeBean.quantidadeTotalFilmeAssistido());
+		pieFilmeAssistidoChartModel.set("Não assistir", filmeBean.quantidadeTotalFilmeNaoAssistido());
+		
+		pieFilmeAssistidoChartModel.setTitle("Filmes");
+		pieFilmeAssistidoChartModel.setLegendPosition("w");
+		pieFilmeAssistidoChartModel.setShowDataLabels(true);
+	}
 
 }

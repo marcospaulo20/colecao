@@ -103,8 +103,8 @@ public class Volume implements Serializable {
 		return this.capitulos.stream().filter(c -> c.getTem() == true).count() + " de " + this.capitulos.size();
 	}
 	
-	public Long quantidadeCapituloQueLeu() {
-		return this.capitulos.stream().filter(c -> c.getLeu() == true).count();
+	public String quantidadeCapituloQueLeu() {
+		return this.capitulos.stream().filter(c -> c.getLeu() == true).count() + " de " + this.capitulos.size();
 	}
 	
 	public Long quantidadeCapituloQueNaoLeu() {

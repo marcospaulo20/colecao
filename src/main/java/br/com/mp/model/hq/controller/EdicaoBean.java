@@ -243,6 +243,7 @@ public class EdicaoBean implements Serializable {
 		}
 		
 		RequestContext.getCurrentInstance().update("form-capitulo:tabela-capitulo");
+		RequestContext.getCurrentInstance().execute("PF('dlgImagem').hide();");
 	}
 	
 	public Date getUltimaModificaoFoto(Long id) { 

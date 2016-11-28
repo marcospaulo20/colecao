@@ -268,6 +268,7 @@ public class VolumeBean implements Serializable {
 			this.imagem = new ImagemManga();
 		}
 		RequestContext.getCurrentInstance().update("form:tabela-volume");
+		RequestContext.getCurrentInstance().execute("PF('dlgImagem').hide();");
 	}
 	
 	private void atualizar() {

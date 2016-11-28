@@ -1,9 +1,9 @@
 .coluna-nome {
-	width: 250px;
+	width: 200px;
 }
 
 .coluna-autor {
-	width: 200px;
+	width: 100px;
 }
 
 .coluna-editora {
@@ -46,6 +46,11 @@
 .coluna-data-lancamento {
 	text-align: center;
 	width: 100px;
+}
+
+.coluna-ano-publicacao {
+	text-align: center;
+	width: 40px;
 }
 
 .coluna-tem {

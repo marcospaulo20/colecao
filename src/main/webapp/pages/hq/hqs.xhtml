@@ -3,6 +3,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	
 	<ui:define name="conteudo">
@@ -15,8 +16,13 @@
 		    	</f:facet>		    	
 			
 				<p:dataTable value="#{hqBean.hqs}" var="hq" id="tabela-hq"
-					paginator="true" paginatorPosition="bottom" widgetVar="hqsTabela" rows="8"
+					paginator="true" paginatorPosition="bottom" widgetVar="hqsTabela" rows="3"
 					emptyMessage="Nenhum registro foi encontrado.">
+					
+					<p:column styleClass="coluna-imagem" headerText="Capa">
+						<o:graphicImage value="#{imagesHQ.get(hq.edicoes[0].capitulos[0].id)}"
+							lastModified="#{edicaoBean.getUltimaModificaoFoto(hq.edicoes[0].capitulos[0].id)}" height="150" />
+					</p:column>
 					
 					<p:column headerText="Nome" styleClass="coluna-nome" sortBy="#{hq.nome}"
 						filterBy="#{hq.nome}">
@@ -26,7 +32,7 @@
 					</p:column>
 					
 					<p:column headerText="Editora" styleClass="coluna-editora" sortBy="#{hq.editora}">
-						<h:outputText value="#{hq.editora}" />
+						<h:outputText value="#{hq.editora.label}" />
 					</p:column>
 					
 					<p:column headerText="N&#176; Edi&#231;&#245;es" styleClass="coluna-numero-edicao">

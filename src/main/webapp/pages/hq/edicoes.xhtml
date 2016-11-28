@@ -51,7 +51,7 @@
 						<p:selectBooleanCheckbox value="#{edicao.tem}">
 							<p:ajax partialSubmit="true" resetValues="true" listener="#{edicaoBean.atualizarCheck(edicao, edicao.tem)}"
 								update="form:tabela-edicao" />
-						</p:selectBooleanCheckbox>		
+						</p:selectBooleanCheckbox>
 					</p:column>
 					
 					<p:column headerText="Op&#231;&#245;es" styleClass="coluna-opcao-edicao">
@@ -94,16 +94,16 @@
 					rowStyleClass="#{capitulo.tem == true ? null : 'red'}"
 					emptyMessage="Nenhum registro foi encontrado.">
 					
-					<p:column styleClass="coluna-imagem">
+					<p:column styleClass="coluna-imagem" headerText="Capa">
 						<o:graphicImage value="#{imagesHQ.get(capitulo.id)}"
 							lastModified="#{edicaoBean.getUltimaModificaoFoto(capitulo.id)}" height="150" />
 					</p:column>
 					
-					<p:column headerText="Edi&#231;&#227;o">
+					<p:column headerText="Edi&#231;&#227;o" styleClass="coluna-nome-edicao">
 						<h:outputText value="#{edicaoBean.edicaoSelecionado.nome}" />
 					</p:column>
 					
-					<p:column headerText="N&#250;mero" styleClass="coluna-numero-capitulo">
+					<p:column headerText="N&#250;mero" styleClass="coluna-numero-edicao">
 						<h:outputText value="#{capitulo.numero}" />
 					</p:column>
 					

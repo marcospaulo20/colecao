@@ -1,0 +1,69 @@
+.coluna-nome {
+	width: 250px;
+}
+
+.coluna-numero-temporada {
+	text-align: center;
+	width: 80px;
+}
+
+.coluna-opcao {
+	text-align: center;
+	width: 80px;
+}
+
+.red {
+	background-color: red;
+	color: #fff;	
+}
+.coluna-nome-temporada {
+	width: 100px;
+}
+
+.coluna-imagem {
+	width: 100px;
+}
+
+.coluna-classificacao {
+	width: 40px;
+}
+
+.coluna-opcao-temporada {
+	text-align: center;
+	width: 80px;
+}
+
+.coluna-ano-lancamento {
+	text-align: center;
+	width: 30px;
+}
+
+.coluna-tem {
+	text-align: center;
+	width: 20px;
+}
+
+.coluna-numero-episodio {
+	text-align: center;
+	width: 80px;
+}
+
+.coluna-temporada {
+	width: 100px;
+}
+
+.coluna-episodio-nome {
+	width: 150px;
+}
+
+#form-episodio {
+	margin-top: 20px;
+}
+
+#panel-temporada-tabela {
+	margin-top: 20px;
+}
+
+.botao-novo {
+	float: right;	
+}

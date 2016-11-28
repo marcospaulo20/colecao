@@ -1,0 +1,92 @@
+<ui:composition template="../../WEB-INF/template/template.xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:define name="conteudo">
+	
+		<h:outputStylesheet library="css" name="series.css" />
+		<h:form id="form">
+		    <p:panel id="panel-serie" header="Series">
+		    	<f:facet name="actions">    		    	
+		            <p:commandButton styleClass="botao-novo" icon="fa fa-plus" actionListener="#{serieBean.novo}" oncomplete="PF('dlgSerie').show();" update="dlg-serie" />
+				</f:facet>
+				
+				<p:dataTable value="#{serieBean.series}" var="serie" id="tabela-serie"
+					paginator="true" paginatorPosition="bottom" widgetVar="seriesTabela" rows="8"
+					emptyMessage="Nenhum registro foi encontrado.">
+					
+					<p:column styleClass="coluna-imagem" headerText="Poster">
+						<o:graphicImage value="#{imagesSerie.get(serie.temporadas[0].id)}"
+							lastModified="#{temporadaSerieBean.getUltimaModificaoFoto(serie.temporadas[0].id)}" height="150" />
+					</p:column>
+					
+					<p:column headerText="Nome" styleClass="coluna-nome" sortBy="#{serie.nome}"
+						filterBy="#{serie.nome}">
+						<h:link outcome="temporadas" value="#{serie.nome}">
+							<f:param name="serieID" value="#{serie.id}" />
+						</h:link>
+					</p:column>
+					
+					<p:column headerText="Ano lan&#231;amento" styleClass="coluna-ano-lancamento">
+						<h:outputText value="#{serie.anoLancamento}" />
+					</p:column>
+					
+					<p:column headerText="Classifica&#231;&#227;o" styleClass="coluna-classificacao">
+						<h:outputText value="#{serie.anoLancamento}" />
+					</p:column>
+					
+					<p:column headerText="N&#176; temporadas" styleClass="coluna-numero-temporada">
+						<h:outputText value="#{serie.temporadas == null ? 0 : serie.quantidadeTemporada()}" />
+					</p:column>
+					
+					<p:column headerText="Op&#231;&#245;es" styleClass="coluna-opcao">
+						<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgSerie').show();" update="dlg-serie">
+							<f:setPropertyActionListener value="#{serie}" target="#{serieBean.serie}" />
+						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-trash" update="form" process="@this"
+							action="#{serieBean.remove()}">
+							<f:setPropertyActionListener value="#{serie}" target="#{serieBean.serie}" />
+							
+							<p:confirm header="Excluir" message="Confirma exclus&#227;o?" icon="ui-icon-alert" />
+							<p:confirmDialog header="Exluir" global="true" showEffect="fade" hideEffect="fade">
+								<p:commandButton  value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					     		<p:commandButton value="N&#227;o" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					   		</p:confirmDialog>
+						</p:commandButton>
+					</p:column>
+					
+					<f:facet name="footer">
+				        No total h&#225; #{fn:length(serieBean.series)} series.
+				    </f:facet>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+		
+		<p:dialog widgetVar="dlgSerie" id="dlg-serie" modal="true" resizable="fasle" header="Serie">
+			<h:form id="form-serie">
+				<p:panel id="panel-serie">
+					<h:panelGrid columns="2">
+						<p:outputLabel for="nome" value="Nome:" />
+						<p:inputText id="nome" value="#{serieBean.serie.nome}" required="true" />
+						
+						<p:outputLabel for="ano-lancamento" value="Ano lan&#231;amento:" />
+						<p:inputText id="ano-lancamento" value="#{serieBean.serie.anoLancamento}" 
+						 	maxlength="4" required="true" />
+						 	
+						<p:outputLabel for="classificacao" value="Classifica&#231;&#227;o:" />
+						<p:selectOneMenu id="classificacao" value="#{serieBean.serie.tipoClassificacao}" style="width:150px">
+			               <f:selectItems value="#{serieBean.tipoClassificacaos}" var="t" itemLabel="#{t.label}" itemValue="#{t}" />                               
+			            </p:selectOneMenu>
+					</h:panelGrid>
+					
+					<p:commandButton value="Save" action="#{serieBean.save()}" update="form:tabela-serie form-serie:panel-serie" style="float: right" />
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

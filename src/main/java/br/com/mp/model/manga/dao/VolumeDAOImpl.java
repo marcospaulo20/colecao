@@ -15,7 +15,7 @@ public class VolumeDAOImpl extends AbstractDAO<Volume, Long> implements VolumeDA
 
 	@Override
 	public List<Volume> list() {
-		String hql = "SELECT v FROM Volume v order by v.nome";
+		String hql = "SELECT v FROM Volume v order by v.dataLancamento";
 		
 		TypedQuery<Volume> query = getEntityManager().createQuery(hql, Volume.class);
 		return query.getResultList();
@@ -23,7 +23,7 @@ public class VolumeDAOImpl extends AbstractDAO<Volume, Long> implements VolumeDA
 
 	@Override
 	public List<Volume> listByManga(Manga id) {
-		String hql = "SELECT v FROM Volume v where v.manga = :mangaID order by v.nome";
+		String hql = "SELECT v FROM Volume v where v.manga = :mangaID order by v.dataLancamento";
 		
 		TypedQuery<Volume> query = getEntityManager().createQuery(hql, Volume.class);
 		query.setParameter("mangaID", id);

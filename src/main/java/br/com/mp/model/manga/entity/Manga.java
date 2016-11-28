@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,8 +32,11 @@ public class Manga implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Tipo tipo;
 	
+	@Column(name="ano_publicacao")
+	private Integer anoPublicacao;
+	
 	@OneToMany(mappedBy = "manga", targetEntity = Volume.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	List<Volume> volumes;
+	private List<Volume> volumes;
 	
 	public Manga() {
 		// TODO Auto-generated constructor stub
@@ -79,6 +83,14 @@ public class Manga implements Serializable {
 	
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
+	}
+	
+	public Integer getAnoPublicacao() {
+		return anoPublicacao;
+	}
+	
+	public void setAnoPublicacao(Integer anoPublicacao) {
+		this.anoPublicacao = anoPublicacao;
 	}
 	
 	public List<Volume> getVolumes() {

@@ -12,5 +12,11 @@
 			
 			<p:chart type="pie" model="#{chartView.pieMangaChartModel}" style="width:400px;height:300px" />
 		</h:panelGrid>
+		
+		<h:panelGrid columns="3">
+			<p:chart type="pie" model="#{chartView.pieFilmeChartModel}" style="width:400px;height:300px" />
+			
+			<p:chart type="pie" model="#{chartView.pieFilmeAssistidoChartModel}" style="width:400px;height:300px" />
+		</h:panelGrid>
 	</ui:define>
 </ui:composition>

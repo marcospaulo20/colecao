@@ -57,6 +57,13 @@
 			<version>6.0</version>
 			<scope>compile</scope>
 		</dependency>
+		
+		<!-- Primefaces Extensions -->
+		<dependency>
+		    <groupId>org.primefaces.extensions</groupId>
+		    <artifactId>primefaces-extensions</artifactId>
+		    <version>6.0.0</version>
+		</dependency>
 
 		<!-- Núcleo do Hibernate -->
 		<dependency>

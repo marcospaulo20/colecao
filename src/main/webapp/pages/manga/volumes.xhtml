@@ -48,7 +48,7 @@
 					rowStyleClass="#{volume.tem == true ? null : 'red'}"
 					emptyMessage="Nenhum registro foi encontrado.">
 					
-					<p:column styleClass="coluna-imagem">
+					<p:column styleClass="coluna-imagem" headerText="Capa">
 						<o:graphicImage value="#{imagesManga.get(volume.id)}" 
 							lastModified="#{volumeBean.getUltimaModificaoFoto(volume.id)}" height="150" />
 					</p:column>
@@ -71,6 +71,10 @@
 					
 					<p:column headerText="N&#176; capitulos" styleClass="coluna-numero-capitulo" rendered="#{volumeBean.manga.tipo == 'VIRTUAL' ? true : false}">
 						<h:outputText value="#{volume.capitulos == null ? 0 : volume.quantidadeCapituloTem()}"/>
+					</p:column>
+					
+					<p:column headerText="N&#176; capitulos que foram lidos" styleClass="coluna-numero-capitulo" rendered="#{volumeBean.manga.tipo == 'VIRTUAL' ? true : false}">
+						<h:outputText value="#{volume.capitulos == null ? 0 : volume.quantidadeCapituloQueLeu()}"/>
 					</p:column>
 					
 					<p:column headerText="Tem" styleClass="coluna-tem">
