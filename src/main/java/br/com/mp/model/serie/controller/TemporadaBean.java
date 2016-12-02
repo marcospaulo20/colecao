@@ -1,10 +1,7 @@
 package br.com.mp.model.serie.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,21 +12,17 @@ import javax.inject.Named;
 
 import org.hibernate.service.spi.ServiceException;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.FileUploadEvent;
 
-import com.google.common.io.ByteStreams;
 import com.sun.faces.util.MessageUtils;
 
 import br.com.mp.model.serie.entity.EpisodioSerie;
-import br.com.mp.model.serie.entity.ImagemSerie;
 import br.com.mp.model.serie.entity.Serie;
 import br.com.mp.model.serie.entity.TemporadaSerie;
 import br.com.mp.model.serie.service.EpisodioSerieService;
-import br.com.mp.model.serie.service.ImagemSerieService;
 import br.com.mp.model.serie.service.SerieService;
 import br.com.mp.model.serie.service.TemporadaSerieService;
 
-@Named(value="temporadaSerieBean")
+@Named(value = "temporadaSerieBean")
 @ViewScoped
 public class TemporadaBean implements Serializable {
 
@@ -44,9 +37,6 @@ public class TemporadaBean implements Serializable {
 	@Inject
 	private EpisodioSerieService episodioSerieService;
 
-	@Inject
-	private ImagemSerieService imagemSerieService;
-
 	private TemporadaSerie temporadaSerie;
 	private TemporadaSerie temporadaSerieSelecionado;
 	private List<TemporadaSerie> temporadaSeries;
@@ -54,11 +44,6 @@ public class TemporadaBean implements Serializable {
 	private Serie serie;
 
 	private EpisodioSerie episodioSerie;
-
-	private ImagemSerie imagemSerie;
-	
-	@Inject
-	private ImagesSerie imagesSerieBean;
 
 	public TemporadaSerie getTemporadaSerie() {
 		return temporadaSerie;
@@ -80,10 +65,6 @@ public class TemporadaBean implements Serializable {
 		return temporadaSeries;
 	}
 
-	public ImagemSerie getImagemSerie() {
-		return imagemSerie;
-	}
-
 	public Serie getSerie() {
 		if (this.serie == null) {
 			this.serie = buscarSeriePorUrl();
@@ -103,7 +84,6 @@ public class TemporadaBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		atualizar();
-		this.imagemSerie = new ImagemSerie();
 	}
 
 	public void save() {
@@ -195,67 +175,29 @@ public class TemporadaBean implements Serializable {
 		this.episodioSerie = new EpisodioSerie();
 	}
 
-	public Date getUltimaModificaoFoto(Long id) {
-		try {
-			Date dataHoraFoto = imagemSerieService.findByTemporadaId(id).getUltimaModificacao();
-			return dataHoraFoto == null ? obterDataHoraAtual() : dataHoraFoto;
-		} catch (Exception e) {
-			return null;
-		}
-	}
-	
 	public void atualizarCheckTemporada(TemporadaSerie temporadaSerie, boolean checkSelection) {
-		if(temporadaSerie != null) {
+		if (temporadaSerie != null) {
 			temporadaSerie.setTem(checkSelection);
 			this.temporadaSerieService.save(temporadaSerie);
 			this.temporadaSerieService.listBySerie(serie);
-		}	
+		}
 	}
-	
+
 	public void atualizarCheckEpisodioTem(EpisodioSerie episodioSerie, boolean checkSelection) {
-		if(episodioSerie != null) {
+		if (episodioSerie != null) {
 			episodioSerie.setTem(checkSelection);
 			this.episodioSerieService.save(episodioSerie);
 			this.temporadaSerieService.listBySerie(serie);
-		}	
+		}
 	}
-	
+
 	public void atualizarCheckEpisodio(EpisodioSerie episodioSerie, boolean checkSelection) {
-		if(episodioSerie != null) {
+		if (episodioSerie != null) {
 			episodioSerie.setAssitiu(checkSelection);
 			this.episodioSerieService.save(episodioSerie);
 			this.temporadaSerieService.listBySerie(serie);
-		}	
-	}
-
-	public void uploadImagem(FileUploadEvent event) throws IOException {
-		InputStream is = event.getFile().getInputstream();
-		byte[] imagemBytes = ByteStreams.toByteArray(is);
-		
-		Long codigoTemporada = this.temporadaSerie.getId();
-		
-		this.imagemSerie = new ImagemSerie();
-		
-		if(imagesSerieBean.get(codigoTemporada)==null){
-			this.imagemSerie.setCodigoTemporada(codigoTemporada);
-			this.imagemSerie.setUltimaModificacao(obterDataHoraAtual());
-			
-			this.imagemSerie.setImagem(imagemBytes);
-			this.imagemSerieService.save(imagemSerie);
-		} else {
-			this.imagemSerie = imagemSerieService.findByTemporadaId(codigoTemporada);
-			
-			this.imagemSerie.setUltimaModificacao(obterDataHoraAtual());
-			this.imagemSerie.setImagem(imagemBytes);
-			this.imagemSerieService.save(imagemSerie);
 		}
-		
-		this.imagesSerieBean.get(codigoTemporada);
-		
-		RequestContext.getCurrentInstance().update("form:tabela-temporada");
-		RequestContext.getCurrentInstance().execute("PF('dlgImagem').hide();");
 	}
-
 
 	private void atualizar() {
 		this.temporadaSeries = temporadaSerieService.listBySerie(buscarSeriePorUrl());
@@ -269,10 +211,6 @@ public class TemporadaBean implements Serializable {
 		if (codigoSerie != null)
 			return serieService.find(Long.parseLong(codigoSerie));
 		return null;
-	}
-
-	private Date obterDataHoraAtual() {
-		return new Date();
 	}
 
 }

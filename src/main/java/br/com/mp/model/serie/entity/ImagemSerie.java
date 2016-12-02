@@ -29,8 +29,8 @@ public class ImagemSerie implements Serializable {
 	@Type(type = "org.hibernate.type.BinaryType")
 	private byte[] imagem;
 
-	@Column(name = "cod_temporada", unique = true)
-	private Long codigoTemporada;
+	@Column(name = "cod_serie", unique = true)
+	private Long codigoSerie;
 
 	@Column(name = "ultima_modificacao")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -48,12 +48,12 @@ public class ImagemSerie implements Serializable {
 		this.imagem = imagem;
 	}
 
-	public Long getCodigoTemporada() {
-		return codigoTemporada;
+	public Long getCodigoSerie() {
+		return codigoSerie;
 	}
-
-	public void setCodigoTemporada(Long codigoTemporada) {
-		this.codigoTemporada = codigoTemporada;
+	
+	public void setCodigoSerie(Long codigoSerie) {
+		this.codigoSerie = codigoSerie;
 	}
 
 	public Date getUltimaModificacao() {

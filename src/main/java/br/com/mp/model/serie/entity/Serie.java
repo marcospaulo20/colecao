@@ -24,6 +24,9 @@ public class Serie implements Serializable {
 	private Long id;
 	
 	private String nome;
+	
+	@Column(name = "nome_original")
+	private String nomeOriginal;
 
 	@Column(name="ano_lancamento")
 	private Integer anoLancamento;
@@ -44,6 +47,14 @@ public class Serie implements Serializable {
 	
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getNomeOriginal() {
+		return nomeOriginal;
+	}
+	
+	public void setNomeOriginal(String nomeOriginal) {
+		this.nomeOriginal = nomeOriginal;
 	}
 	
 	public Integer getAnoLancamento() {

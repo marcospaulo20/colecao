@@ -5,5 +5,5 @@ import br.com.mp.util.dao.DAO;
 
 public interface ImagemSerieDAO extends DAO<ImagemSerie, Long> {
 
-	ImagemSerie findByTemporada(Long temporadaID);
+	ImagemSerie findBySerie(Long serieID);
 }

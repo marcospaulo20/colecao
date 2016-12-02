@@ -13,12 +13,12 @@ public class ImagemSerieDAOImpl extends AbstractDAO<ImagemSerie, Long> implement
 	private static final long serialVersionUID = 7382210071105601889L;
 
 	@Override
-	public ImagemSerie findByTemporada(Long temporadaID) {
+	public ImagemSerie findBySerie(Long serieID) {
 		try {
-			String hql = "SELECT i FROM ImagemSerie i where i.codigoTemporada = :temporadaID";
+			String hql = "SELECT i FROM ImagemSerie i where i.codigoSerie = :serieID";
 			
 			TypedQuery<ImagemSerie> query = getEntityManager().createQuery(hql, ImagemSerie.class);
-			query.setParameter("temporadaID", temporadaID);
+			query.setParameter("serieID", serieID);
 			return query.getSingleResult();
 		} catch(NoResultException nre) {
 			return null;

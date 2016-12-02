@@ -25,7 +25,7 @@
 }
 
 .coluna-classificacao {
-	width: 40px;
+	width: 80px;
 }
 
 .coluna-opcao-temporada {
@@ -35,7 +35,7 @@
 
 .coluna-ano-lancamento {
 	text-align: center;
-	width: 30px;
+	width: 40px;
 }
 
 .coluna-tem {

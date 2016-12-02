@@ -22,12 +22,12 @@ public class ImagemSerieServiceImpl extends ServiceAbstract<ImagemSerie> impleme
 
 	@Override
 	public ImagemSerie getImageBytes(Long temporadaID) {
-		return imagemSerieDAO.findByTemporada(temporadaID);
+		return imagemSerieDAO.findBySerie(temporadaID);
 	}
 
 	@Override
-	public ImagemSerie findByTemporadaId(Long codigoTemporada) {
-		return imagemSerieDAO.findByTemporada(codigoTemporada);
+	public ImagemSerie findBySerieId(Long codigoSerie) {
+		return imagemSerieDAO.findBySerie(codigoSerie);
 	}
 
 }

@@ -7,5 +7,5 @@ public interface ImagemSerieService extends Service<ImagemSerie> {
 
 	ImagemSerie getImageBytes(Long temporadaID);
 
-	ImagemSerie findByTemporadaId(Long codigoTemporada);
+	ImagemSerie findBySerieId(Long codigoSerie);
 }

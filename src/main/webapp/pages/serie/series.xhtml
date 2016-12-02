@@ -16,12 +16,12 @@
 				</f:facet>
 				
 				<p:dataTable value="#{serieBean.series}" var="serie" id="tabela-serie"
-					paginator="true" paginatorPosition="bottom" widgetVar="seriesTabela" rows="8"
+					paginator="true" paginatorPosition="bottom" widgetVar="seriesTabela" rows="3"
 					emptyMessage="Nenhum registro foi encontrado.">
 					
 					<p:column styleClass="coluna-imagem" headerText="Poster">
-						<o:graphicImage value="#{imagesSerie.get(serie.temporadas[0].id)}"
-							lastModified="#{temporadaSerieBean.getUltimaModificaoFoto(serie.temporadas[0].id)}" height="150" />
+						<o:graphicImage value="#{imagesSerie.get(serie.id)}"
+							lastModified="#{serieBean.getUltimaModificaoFoto(serie.id)}" height="150" />
 					</p:column>
 					
 					<p:column headerText="Nome" styleClass="coluna-nome" sortBy="#{serie.nome}"
@@ -31,12 +31,18 @@
 						</h:link>
 					</p:column>
 					
-					<p:column headerText="Ano lan&#231;amento" styleClass="coluna-ano-lancamento">
+					<p:column headerText="Nome original" styleClass="coluna-nome" sortBy="#{serie.nomeOriginal}"
+						filterBy="#{serie.nomeOriginal}">
+						<h:outputText value="#{serie.nomeOriginal}" />
+					</p:column>
+					
+					
+					<p:column headerText="Ano" styleClass="coluna-ano-lancamento">
 						<h:outputText value="#{serie.anoLancamento}" />
 					</p:column>
 					
 					<p:column headerText="Classifica&#231;&#227;o" styleClass="coluna-classificacao">
-						<h:outputText value="#{serie.anoLancamento}" />
+						<h:outputText value="#{serie.tipoClassificacao.label}" />
 					</p:column>
 					
 					<p:column headerText="N&#176; temporadas" styleClass="coluna-numero-temporada">
@@ -58,6 +64,11 @@
 					     		<p:commandButton value="N&#227;o" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					   		</p:confirmDialog>
 						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-image" oncomplete="PF('dlgImagem').show();" update="form-imagem:panel-imagem">
+							<f:setPropertyActionListener value="#{serie}" target="#{serieBean.serie}" />			
+						</p:commandButton>
+						
 					</p:column>
 					
 					<f:facet name="footer">
@@ -74,6 +85,9 @@
 						<p:outputLabel for="nome" value="Nome:" />
 						<p:inputText id="nome" value="#{serieBean.serie.nome}" required="true" />
 						
+						<p:outputLabel for="nomeOriginal" value="Nome original:" />
+						<p:inputText id="nomeOriginal" value="#{serieBean.serie.nomeOriginal}" />
+						
 						<p:outputLabel for="ano-lancamento" value="Ano lan&#231;amento:" />
 						<p:inputText id="ano-lancamento" value="#{serieBean.serie.anoLancamento}" 
 						 	maxlength="4" required="true" />
@@ -85,6 +99,21 @@
 					</h:panelGrid>
 					
 					<p:commandButton value="Save" action="#{serieBean.save()}" update="form:tabela-serie form-serie:panel-serie" style="float: right" />
+				</p:panel>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog widgetVar="dlgImagem" id="dlg-imagem" modal="true" resizable="fasle" header="Imagem">
+			<h:form id="form-imagem">
+				<p:panel id="panel-imagem">
+					<h:panelGrid columns="2">
+						<p:outputLabel for="nome" value="Nome:" size="200" />
+						<p:inputText id="nome" value="#{serieBean.serie.nome}" disabled="true" />
+					</h:panelGrid>
+					<h:panelGrid columns="1">
+						<p:fileUpload fileUploadListener="#{serieBean.uploadImagem}" mode="advanced" dragDropSupport="false"
+           					sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+					</h:panelGrid>												
 				</p:panel>
 			</h:form>
 		</p:dialog>

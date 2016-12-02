@@ -31,10 +31,4 @@ public class MangaDAOImpl extends AbstractDAO<Manga, Long> implements MangaDAO, 
 		
 		return query.getResultList();
 	}
-
-	@Override
-	public Manga find(Long id) {		
-		return (Manga) getSession().get(Manga.class, id);
-	}
-
 }

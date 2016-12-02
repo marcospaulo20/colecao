@@ -52,6 +52,11 @@ public abstract class AbstractDAO<T, ID> implements DAO<T, ID> {
 	public void remove(T entity) {
 		Object o = manager.merge(entity);
 		manager.remove(o);
-	}	
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T find(Long id) {
+		return (T) getSession().get(persistentClass, id);
+	}
 
 }
