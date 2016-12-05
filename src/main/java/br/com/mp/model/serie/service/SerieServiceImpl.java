@@ -26,10 +26,4 @@ public class SerieServiceImpl extends ServiceAbstract<Serie> implements SerieSer
 		return serieDAO.list();
 	}
 
-	@Override
-	public Serie find(Long id) {
-		return serieDAO.find(id);
-	}
-
-
 }

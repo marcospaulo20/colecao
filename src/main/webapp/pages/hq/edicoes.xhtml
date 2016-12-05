@@ -148,7 +148,7 @@
 						</p:commandButton>
 						
 						<p:commandButton icon="fa fa-image" oncomplete="PF('dlgImagem').show();" update="form-imagem:panel-imagem">
-							<f:setPropertyActionListener value="#{capitulo}" target="#{edicaoBean.capituloHQ}" />						
+							<f:setPropertyActionListener value="#{capitulo}" target="#{edicaoBean.capituloHQ}" />
 						</p:commandButton>
 					</p:column>	
 				</p:dataTable>
@@ -215,7 +215,7 @@
 				<p:panel id="panel-imagem">
 					<h:panelGrid columns="2">
 						<p:outputLabel for="nome" value="Nome:" />
-						<p:inputText id="nome" value="#{edicaoBean.edicao.nome}" disabled="true" />
+						<p:inputText id="nome" value="#{edicaoBean.capituloHQ.nome}" disabled="true" size="32" />
 					</h:panelGrid>
 					<h:panelGrid columns="1">
 						<p:fileUpload fileUploadListener="#{edicaoBean.uploadImagem}" mode="advanced" dragDropSupport="false"

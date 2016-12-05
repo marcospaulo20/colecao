@@ -20,9 +20,4 @@ public class SerieDAOImpl extends AbstractDAO<Serie, Long> implements SerieDAO, 
 		return query.getResultList();
 	}
 
-	@Override
-	public Serie find(Long id) {
-		return (Serie) getSession().get(Serie.class, id);
-	}
-
 }

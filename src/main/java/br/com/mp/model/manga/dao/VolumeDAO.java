@@ -11,6 +11,4 @@ public interface VolumeDAO extends DAO<Volume, Long> {
 	List<Volume> list();
 	
 	List<Volume> listByManga(Manga id);
-
-	Volume find(Long id);
 }

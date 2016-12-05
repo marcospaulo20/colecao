@@ -11,6 +11,4 @@ public interface CapituloHQDAO extends DAO<CapituloHQ, Long> {
 	List<CapituloHQ> list();
 	
 	List<CapituloHQ> listByEdicao(Edicao edicao);
-	
-	CapituloHQ find(Long id);
 }

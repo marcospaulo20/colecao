@@ -12,5 +12,7 @@ public interface DAO<T, ID> {
 
 	T save(T entity);
 	
-	void remove(T entity);	
+	void remove(T entity);
+	
+	T find(Long id);
 }

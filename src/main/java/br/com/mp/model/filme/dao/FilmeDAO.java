@@ -8,6 +8,4 @@ import br.com.mp.util.dao.DAO;
 public interface FilmeDAO extends DAO<Filme, Long> {
 
 	List<Filme> list();
-	
-	Filme find(Long id);
 }

@@ -23,4 +23,9 @@ public class ServiceAbstract<T> implements Service<T> {
 		return (T) dao.save(entity);
 	}
 
+	@Override
+	public T find(Long id) {
+		return (T) dao.find(id);
+	}
+
 }

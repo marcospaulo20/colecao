@@ -128,7 +128,7 @@
 					rowStyleClass="#{capitulo.tem == true ? null : 'red'}"
 					emptyMessage="Nenhum registro foi encontrado.">
 					
-					<p:column headerText="Volume">
+					<p:column headerText="Volume" styleClass="coluna-nome-volume">
 						<h:outputText value="#{volumeBean.volumeSelecionado.nome}" />
 					</p:column>
 					
@@ -136,7 +136,7 @@
 						<h:outputText value="#{capitulo.numero}" />
 					</p:column>
 					
-					<p:column headerText="Nome">
+					<p:column headerText="Nome" styleClass="coluna-nome-capitulo">
 						<h:outputText value="#{capitulo.nome}" />
 					</p:column>
 					

@@ -11,6 +11,4 @@ public interface MangaDAO extends DAO<Manga, Long> {
 	List<Manga> list();
 	
 	List<Manga> listFilter(Tipo tipo);	
-
-	Manga find(Long id);
 }

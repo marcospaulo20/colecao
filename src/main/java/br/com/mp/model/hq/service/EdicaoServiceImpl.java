@@ -32,10 +32,4 @@ public class EdicaoServiceImpl extends ServiceAbstract<Edicao> implements Edicao
 		return edicaoDAO.listByHQ(hq);
 	}
 
-	@Override
-	public Edicao find(Long id) {
-		return edicaoDAO.find(id);
-	}
-
-
 }

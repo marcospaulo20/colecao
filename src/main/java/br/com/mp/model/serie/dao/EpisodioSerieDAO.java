@@ -12,5 +12,4 @@ public interface EpisodioSerieDAO extends DAO<EpisodioSerie, Long> {
 	
 	List<EpisodioSerie> listByTemporada(TemporadaSerie id);
 	
-	EpisodioSerie find(Long id);
 }

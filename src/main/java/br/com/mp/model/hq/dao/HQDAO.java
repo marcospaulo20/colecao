@@ -8,6 +8,4 @@ import br.com.mp.util.dao.DAO;
 public interface HQDAO extends DAO<HQ, Long> {
 
 	List<HQ> list();
-	
-	HQ find(Long id);
 }

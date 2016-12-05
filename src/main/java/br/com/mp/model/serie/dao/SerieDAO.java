@@ -8,6 +8,4 @@ import br.com.mp.util.dao.DAO;
 public interface SerieDAO extends DAO<Serie, Long> {
 
 	List<Serie> list();
-	
-	Serie find(Long id);
 }

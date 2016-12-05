@@ -8,6 +8,4 @@ import br.com.mp.util.service.Service;
 public interface FilmeService extends Service<Filme> {
 
 	List<Filme> list();
-	
-	Filme find(Long id);
 }

@@ -31,10 +31,5 @@ public class MangaServiceImpl extends ServiceAbstract<Manga> implements MangaSer
 	public List<Manga> listFilter(Tipo tipo) {
 		return mangaDAO.listFilter(tipo);
 	}
-
-	@Override
-	public Manga find(Long id) {
-		return mangaDAO.find(id);
-	}
 	
 }

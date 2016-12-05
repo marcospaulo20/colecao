@@ -26,10 +26,4 @@ public class HQServiceImpl extends ServiceAbstract<HQ> implements HQService, Ser
 		return hqDAO.list();
 	}
 
-	@Override
-	public HQ find(Long id) {
-		return hqDAO.find(id);
-	}
-
-
 }

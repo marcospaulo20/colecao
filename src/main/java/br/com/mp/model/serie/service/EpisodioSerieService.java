@@ -12,5 +12,4 @@ public interface EpisodioSerieService extends Service<EpisodioSerie> {
 	
 	List<EpisodioSerie> listByTemporada(TemporadaSerie temporada);
 	
-	EpisodioSerie find(Long id);
 }

@@ -30,9 +30,4 @@ public class VolumeDAOImpl extends AbstractDAO<Volume, Long> implements VolumeDA
 		return query.getResultList();
 	}
 
-	@Override
-	public Volume find(Long id) {
-		return (Volume) getSession().get(Volume.class, id);
-	}
-
 }

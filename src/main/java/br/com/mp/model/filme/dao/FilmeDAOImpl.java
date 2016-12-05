@@ -19,9 +19,4 @@ public class FilmeDAOImpl extends AbstractDAO<Filme, Long> implements FilmeDAO, 
 		TypedQuery<Filme> query = getEntityManager().createQuery(hql, Filme.class);
 		return query.getResultList();
 	}
-
-	@Override
-	public Filme find(Long id) {		
-		return (Filme) getSession().get(Filme.class, id);
-	}
 }

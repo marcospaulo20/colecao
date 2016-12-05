@@ -12,5 +12,4 @@ public interface MangaService extends Service<Manga> {
 	
 	List<Manga> listFilter(Tipo tipo);
 	
-	Manga find(Long id);
 }

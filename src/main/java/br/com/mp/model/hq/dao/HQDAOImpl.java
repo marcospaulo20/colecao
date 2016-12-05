@@ -20,8 +20,4 @@ public class HQDAOImpl extends AbstractDAO<HQ, Long> implements HQDAO, Serializa
 		return query.getResultList();
 	}
 	
-	@Override
-	public HQ find(Long id) {		
-		return (HQ) getSession().get(HQ.class, id);
-	}
 }

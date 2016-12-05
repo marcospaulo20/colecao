@@ -12,5 +12,4 @@ public interface TemporadaSerieService extends Service<TemporadaSerie> {
 	
 	List<TemporadaSerie> listBySerie(Serie serie);
 	
-	TemporadaSerie find(Long id);
 }

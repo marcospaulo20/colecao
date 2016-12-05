@@ -7,4 +7,6 @@ public interface Service<T> {
 	public void remove(T entity) throws ServiceException;
 
 	public T save(T entity) throws ServiceException;
+	
+	public T find(Long id);
 }

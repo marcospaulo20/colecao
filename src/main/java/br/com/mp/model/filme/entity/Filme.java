@@ -3,6 +3,7 @@ package br.com.mp.model.filme.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,6 +23,9 @@ public class Filme implements Serializable {
 	private Long id;
 
 	private String nome;
+	
+	@Column(name = "nome_original")
+	private String nomeOriginal;
 
 	@Enumerated(EnumType.STRING)
 	private TipoClassificacao tipoClassificacao;
@@ -45,6 +49,14 @@ public class Filme implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getNomeOriginal() {
+		return nomeOriginal;
+	}
+	
+	public void setNomeOriginal(String nomeOriginal) {
+		this.nomeOriginal = nomeOriginal;
 	}
 
 	public TipoClassificacao getTipoClassificacao() {

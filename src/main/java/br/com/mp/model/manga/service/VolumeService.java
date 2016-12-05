@@ -12,6 +12,4 @@ public interface VolumeService extends Service<Volume> {
 	
 	List<Volume> listByManga(Manga manga);
 	
-	Volume find(Long id);
-
 }

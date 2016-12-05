@@ -11,6 +11,4 @@ public interface EdicaoDAO extends DAO<Edicao, Long> {
 	List<Edicao> list();
 	
 	List<Edicao> listByHQ(HQ id);
-	
-	Edicao find(Long id);
 }

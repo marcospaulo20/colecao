@@ -32,10 +32,5 @@ public class EpisodioSerieServiceImpl extends ServiceAbstract<EpisodioSerie>
 	public List<EpisodioSerie> listByTemporada(TemporadaSerie temporada) {
 		return episodioSerieDAO.listByTemporada(temporada);
 	}
-
-	@Override
-	public EpisodioSerie find(Long id) {
-		return episodioSerieDAO.find(id);
-	}
-
+	
 }

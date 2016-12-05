@@ -30,9 +30,4 @@ public class TemporadaSerieDAOImpl extends AbstractDAO<TemporadaSerie, Long> imp
 		return query.getResultList();
 	}
 
-	@Override
-	public TemporadaSerie find(Long id) {
-		return (TemporadaSerie) getSession().get(TemporadaSerie.class, id);
-	}
-
 }

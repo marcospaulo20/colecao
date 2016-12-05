@@ -8,6 +8,4 @@ import br.com.mp.util.service.Service;
 public interface SerieService extends Service<Serie> {
 
 	List<Serie> list();
-	
-	Serie find(Long id);
 }

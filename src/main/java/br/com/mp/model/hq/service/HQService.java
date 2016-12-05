@@ -8,6 +8,4 @@ import br.com.mp.util.service.Service;
 public interface HQService extends Service<HQ> {
 
 	List<HQ> list();
-	
-	HQ find(Long id);
 }

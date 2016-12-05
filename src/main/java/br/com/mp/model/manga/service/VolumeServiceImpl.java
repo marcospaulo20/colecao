@@ -31,10 +31,4 @@ public class VolumeServiceImpl extends ServiceAbstract<Volume> implements Volume
 	public List<Volume> listByManga(Manga manga) {
 		return volumeDAO.listByManga(manga);
 	}
-
-	@Override
-	public Volume find(Long id) {
-		return volumeDAO.find(id);
-	}
-	
 }

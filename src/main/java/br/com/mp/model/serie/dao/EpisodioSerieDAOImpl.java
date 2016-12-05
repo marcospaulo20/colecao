@@ -30,10 +30,4 @@ public class EpisodioSerieDAOImpl extends AbstractDAO<EpisodioSerie, Long> imple
 		return query.getResultList();
 	}
 
-	@Override
-	public EpisodioSerie find(Long id) {
-		return (EpisodioSerie) getSession().get(EpisodioSerie.class, id);
-	}
-
-
 }

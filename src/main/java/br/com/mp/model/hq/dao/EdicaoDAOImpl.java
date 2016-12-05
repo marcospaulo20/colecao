@@ -30,9 +30,4 @@ public class EdicaoDAOImpl extends AbstractDAO<Edicao, Long> implements EdicaoDA
 		return query.getResultList();
 	}
 
-	
-	@Override
-	public Edicao find(Long id) {		
-		return (Edicao) getSession().get(Edicao.class, id);
-	}
 }

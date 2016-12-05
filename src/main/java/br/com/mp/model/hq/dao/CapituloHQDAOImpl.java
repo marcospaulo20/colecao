@@ -30,9 +30,4 @@ public class CapituloHQDAOImpl extends AbstractDAO<CapituloHQ, Long> implements 
 		return query.getResultList();
 	}
 
-	
-	@Override
-	public CapituloHQ find(Long id) {		
-		return (CapituloHQ) getSession().get(CapituloHQ.class, id);
-	}
 }

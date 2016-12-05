@@ -12,5 +12,4 @@ public interface TemporadaSerieDAO extends DAO<TemporadaSerie, Long> {
 
 	List<TemporadaSerie> listBySerie(Serie id);
 
-	TemporadaSerie find(Long id);
 }

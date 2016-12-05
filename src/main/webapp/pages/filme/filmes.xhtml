@@ -32,7 +32,12 @@
 						<h:outputText value="#{filme.nome}" />
 					</p:column>
 					
-					<p:column headerText="Ano lan&#231;amento" styleClass="coluna-ano-lancamento"
+					<p:column headerText="Nome original" styleClass="coluna-nome"
+						filterBy="#{filme.nomeOriginal}">
+						<h:outputText value="#{filme.nomeOriginal}" />
+					</p:column>
+					
+					<p:column headerText="Ano" styleClass="coluna-ano-lancamento"
 						filterBy="#{filme.anoLancamneto}">
 						<h:outputText value="#{filme.anoLancamneto}" />
 					</p:column>
@@ -94,6 +99,9 @@
 					<h:panelGrid columns="2">
 						<p:outputLabel for="nome" value="Nome:" />
 						<p:inputText id="nome" value="#{filmeBean.filme.nome}" required="true" />
+						
+						<p:outputLabel for="nomeOriginal" value="Nome original:" />
+						<p:inputText id="nomeOriginal" value="#{filmeBean.filme.nomeOriginal}" required="true" />
 						
 						<p:outputLabel for="ano" value="Ano lan&#231;amento:" />
 						<p:inputText id="ano" value="#{filmeBean.filme.anoLancamneto}" required="true" decimalPlaces="0" />

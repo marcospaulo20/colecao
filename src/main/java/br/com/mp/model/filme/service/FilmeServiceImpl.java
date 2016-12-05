@@ -26,8 +26,4 @@ public class FilmeServiceImpl extends ServiceAbstract<Filme> implements FilmeSer
 		return filmeDAO.list();
 	}
 
-	public Filme find(Long id) {
-		return filmeDAO.find(id);
-	}
-
 }

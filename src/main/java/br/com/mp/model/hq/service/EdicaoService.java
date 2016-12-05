@@ -11,6 +11,4 @@ public interface EdicaoService extends Service<Edicao> {
 	List<Edicao> list();
 	
 	List<Edicao> listByHQ(HQ hq);
-	
-	Edicao find(Long id);
 }
