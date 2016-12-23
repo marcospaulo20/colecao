@@ -15,7 +15,7 @@ public class CapituloDAOImpl extends AbstractDAO<Capitulo, Long> implements Capi
 
 	@Override
 	public List<Capitulo> list() {
-		String hql = "SELECT c FROM Capitulo c order by m.nome";
+		String hql = "SELECT c FROM Capitulo c order by c.numero";
 
 		TypedQuery<Capitulo> query = getEntityManager().createQuery(hql, Capitulo.class);
 		return query.getResultList();
@@ -23,7 +23,7 @@ public class CapituloDAOImpl extends AbstractDAO<Capitulo, Long> implements Capi
 
 	@Override
 	public List<Capitulo> listByVolume(Volume volume) {
-		String hql = "SELECT c FROM Capitulo c where c.volume = :volume order by c.nome";
+		String hql = "SELECT c FROM Capitulo c where c.volume = :volume order by c.numero";
 
 		TypedQuery<Capitulo> query = getEntityManager().createQuery(hql, Capitulo.class);
 		query.setParameter("volume", volume);

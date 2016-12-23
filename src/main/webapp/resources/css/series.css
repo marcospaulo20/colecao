@@ -40,7 +40,12 @@
 
 .coluna-tem {
 	text-align: center;
-	width: 20px;
+	width: 30px;
+}
+
+.coluna-assistiu {
+	text-align: center;
+	width: 50px;
 }
 
 .coluna-numero-episodio {

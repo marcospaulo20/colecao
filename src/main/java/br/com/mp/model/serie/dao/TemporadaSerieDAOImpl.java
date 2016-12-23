@@ -15,7 +15,7 @@ public class TemporadaSerieDAOImpl extends AbstractDAO<TemporadaSerie, Long> imp
 
 	@Override
 	public List<TemporadaSerie> list() {
-		String hql = "SELECT ts FROM TemporadaSerie ts order by ts.nome";
+		String hql = "SELECT ts FROM TemporadaSerie ts order by ts.anoLancamento";
 		
 		TypedQuery<TemporadaSerie> query = getEntityManager().createQuery(hql, TemporadaSerie.class);
 		return query.getResultList();
@@ -23,7 +23,7 @@ public class TemporadaSerieDAOImpl extends AbstractDAO<TemporadaSerie, Long> imp
 
 	@Override
 	public List<TemporadaSerie> listBySerie(Serie id) {
-		String hql = "SELECT ts FROM TemporadaSerie ts where ts.serie = :serieID order by ts.nome";
+		String hql = "SELECT ts FROM TemporadaSerie ts where ts.serie = :serieID order by ts.anoLancamento";
 		
 		TypedQuery<TemporadaSerie> query = getEntityManager().createQuery(hql, TemporadaSerie.class);
 		query.setParameter("serieID", id);

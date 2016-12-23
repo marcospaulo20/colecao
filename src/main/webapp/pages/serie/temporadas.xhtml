@@ -96,7 +96,7 @@
 						<h:outputText value="#{temporadaSerieBean.temporadaSerieSelecionado.nome}" />
 					</p:column>
 					
-					<p:column headerText="N&#250;mero" styleClass="coluna-numero-episodio">
+					<p:column headerText="N&#250;mero" styleClass="coluna-numero-episodio" sortBy="#{episodio.numero}">
 						<h:outputText value="#{episodio.numero}" />
 					</p:column>
 					
@@ -111,7 +111,7 @@
 						</p:selectBooleanCheckbox>
 					</p:column>
 					
-					<p:column headerText="Assistiu" styleClass="coluna-tem">
+					<p:column headerText="Assistiu" styleClass="coluna-assistiu">
 						<p:selectBooleanCheckbox value="#{episodio.assitiu}">
 							<p:ajax partialSubmit="true" resetValues="true" listener="#{temporadaSerieBean.atualizarCheckEpisodio(episodio, episodio.assitiu)}"
 								update="tabela-episodio form:tabela-temporada"/>

@@ -1,7 +1,9 @@
 package br.com.mp.model.manga.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -94,7 +96,8 @@ public class Manga implements Serializable {
 	}
 	
 	public List<Volume> getVolumes() {
-		return volumes;
+		return this.volumes == null ? this.volumes
+				: volumes.stream().sorted(Comparator.comparing(Volume::getDataLancamento)).collect(Collectors.toList());
 	}
 	
 	public void setVolumes(List<Volume> volumes) {

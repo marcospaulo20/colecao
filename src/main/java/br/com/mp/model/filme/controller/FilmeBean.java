@@ -18,6 +18,7 @@ import org.primefaces.event.FileUploadEvent;
 import com.google.common.io.ByteStreams;
 
 import br.com.mp.model.filme.entity.Filme;
+import br.com.mp.model.filme.entity.Genero;
 import br.com.mp.model.filme.entity.ImagemFilme;
 import br.com.mp.model.filme.entity.TipoClassificacao;
 import br.com.mp.model.filme.service.FilmeService;
@@ -41,6 +42,9 @@ public class FilmeBean implements Serializable {
 	private TipoClassificacao tipoClassificacao;
 	@SuppressWarnings("unused")
 	private TipoClassificacao[] tipoClassificacaos;
+	
+	@SuppressWarnings("unused")
+	private Genero[] generos;
 	
 	@Inject
 	private ImagesFilme imageFilmeBean;
@@ -73,6 +77,14 @@ public class FilmeBean implements Serializable {
 
 	public void setTipoClassificacaos(TipoClassificacao[] tipoClassificacaos) {
 		this.tipoClassificacaos = tipoClassificacaos;
+	}
+	
+	public Genero[] getGeneros() {
+		return Genero.values();
+	}
+	
+	public void setGeneros(Genero[] generos) {
+		this.generos = generos;
 	}
 	
 	public ImagemFilme getImagem() {

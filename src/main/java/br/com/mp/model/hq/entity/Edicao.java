@@ -1,8 +1,10 @@
 package br.com.mp.model.hq.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,7 +35,7 @@ public class Edicao implements Serializable {
 	private Date dataPublicacao;
 
 	private Boolean tem = Boolean.FALSE;
-	
+
 	@OneToMany(mappedBy = "edicao", targetEntity = CapituloHQ.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<CapituloHQ> capitulos;
 
@@ -70,7 +72,8 @@ public class Edicao implements Serializable {
 	}
 
 	public List<CapituloHQ> getCapitulos() {
-		return capitulos;
+		return this.capitulos == null ? this.capitulos
+				: capitulos.stream().sorted(Comparator.comparing(CapituloHQ::getNumero)).collect(Collectors.toList());
 	}
 
 	public void setCapitulos(List<CapituloHQ> capitulos) {
@@ -84,15 +87,15 @@ public class Edicao implements Serializable {
 	public void setHq(HQ hq) {
 		this.hq = hq;
 	}
-	
+
 	public String quantidadeCapituloTem() {
 		return this.capitulos.stream().filter(c -> c.getTem() == true).count() + " de " + this.capitulos.size();
 	}
-	
+
 	public String quantidadeCapituloQueLeu() {
 		return this.capitulos.stream().filter(c -> c.getLeu() == true).count() + " de " + this.capitulos.size();
 	}
-	
+
 	public Long quantidadeCapituloQueNaoLeu() {
 		return this.capitulos.stream().filter(c -> c.getLeu() == false).count();
 	}

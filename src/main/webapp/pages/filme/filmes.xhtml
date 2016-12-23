@@ -83,6 +83,10 @@
 						<p:commandButton icon="fa fa-image" oncomplete="PF('dlgImagem').show();" update="form-imagem:panel-imagem">
 							<f:setPropertyActionListener value="#{filme}" target="#{filmeBean.filme}" />						
 						</p:commandButton>
+						
+						<p:commandButton icon="fa fa-search" oncomplete="PF('dlgFilmeDescricao').show();" update="form-descricao">
+							<f:setPropertyActionListener value="#{filme}" target="#{filmeBean.filme}" />						
+						</p:commandButton>
 					</p:column>
 					
 					<f:facet name="footer">
@@ -113,6 +117,15 @@
 						<p:selectOneMenu id="classificacao" value="#{filmeBean.filme.tipoClassificacao}" style="width:150px">
 			               <f:selectItems value="#{filmeBean.tipoClassificacaos}" var="t" itemLabel="#{t.label}" itemValue="#{t}" />                               
 			            </p:selectOneMenu>
+			            
+			            <p:outputLabel for="genero" value="Genero:" />
+				        <p:selectCheckboxMenu id="genero" value="#{filmeBean.filme.generos}" label="Generos"
+							filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+				            <f:selectItems value="#{filmeBean.generos}" var="g" itemLabel="#{g.label}" />
+				        </p:selectCheckboxMenu>
+			            
+			            <p:outputLabel for="sinopse" value="Sinopse:" />
+						<p:inputTextarea id="sinopse" rows="6" cols="33" value="#{filmeBean.filme.sinopse}" />
 					</h:panelGrid>
 					
 					<p:commandButton value="Save" action="#{filmeBean.save()}" update="form:tabela-filme form-filme:panel-filme" style="float: right" />
@@ -132,6 +145,35 @@
            					sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 					</h:panelGrid>		
 				</p:panel>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog widgetVar="dlgFilmeDescricao" id="dlg-descricao" modal="true" resizable="fasle" header="Descri&#231;&#227;o"
+			width="450px">
+			<h:form id="form-descricao">
+				<h:panelGrid columns="2">
+					<o:graphicImage value="#{imagesFilme.get(filmeBean.filme.id)}"
+						lastModified="#{filmeBean.getUltimaModificaoFoto(filmeBean.filme.id)}" height="150" />
+					<h:panelGroup>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Nome:" />
+							<h:outputText value="#{filmeBean.filme.nome}" />
+							<p:outputLabel value="Nome Original:" />
+							<h:outputText value="#{filmeBean.filme.nomeOriginal}" />
+							<p:outputLabel value="Ano lancamento:" />
+							<h:outputText value="#{filmeBean.filme.anoLancamneto}" />
+							<p:outputLabel value="Dura&#231;&#227;o:" />
+							<h:outputText value="#{filmeBean.filme.duracao}" />
+							<p:outputLabel value="Classifi&#231;&#227;o:" />
+							<h:outputText value="#{filmeBean.filme.tipoClassificacao.label}" />
+						</h:panelGrid>
+					</h:panelGroup>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<p:outputLabel value="Sinopse" />
+					<p:outputLabel style="text-align: justify;"
+						value="#{filmeBean.filme.sinopse}"/>
+				</h:panelGrid>	
 			</h:form>
 		</p:dialog>
 	</ui:define>
