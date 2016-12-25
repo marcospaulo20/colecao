@@ -28,7 +28,8 @@
 }
 
 .coluna-duracao {
-	width: 60px;
+	text-align: center;
+	width: 60px;	
 }
 
 .coluna-imagem {

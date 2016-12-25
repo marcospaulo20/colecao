@@ -50,7 +50,7 @@
 					
 					<p:column styleClass="coluna-imagem" headerText="Capa">
 						<o:graphicImage value="#{imagesManga.get(volume.id)}" 
-							lastModified="#{volumeBean.getUltimaModificaoFoto(volume.id)}" height="150" />
+							lastModified="#{volumeBean.getUltimaModificaoFoto(volume.id)}" height="150" width="100" />
 					</p:column>
 					
 					<p:column headerText="Nome" styleClass="coluna-nome-volume" filterBy="#{volume.nome}">

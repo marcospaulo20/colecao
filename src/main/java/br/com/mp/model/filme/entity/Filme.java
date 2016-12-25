@@ -1,8 +1,8 @@
 package br.com.mp.model.filme.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -33,20 +33,21 @@ public class Filme implements Serializable {
 	private String nomeOriginal;
 
 	@Enumerated(EnumType.STRING)
+	@Column(name = "tipo_classificacao")
 	private TipoClassificacao tipoClassificacao;
 
-	private Integer anoLancamneto;
+	@Column(name = "ano_lancamento")
+	private Integer anoLancamento;
 
 	@Temporal(TemporalType.TIME)
 	private Date duracao;
 
 	private String sinopse;
 	
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "filme_genero", joinColumns = @JoinColumn(name = "id"))
-	@Enumerated(EnumType.STRING)
-	@Column(name = "genero")
-	private Collection<Genero> generos;
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="generos_filme", joinColumns=@JoinColumn(name="id"))
+	@Column(name="generos")
+	private Set<String> generos;
 	
 	private Boolean tem = Boolean.FALSE;
 
@@ -80,12 +81,12 @@ public class Filme implements Serializable {
 		this.tipoClassificacao = tipoClassificacao;
 	}
 
-	public Integer getAnoLancamneto() {
-		return anoLancamneto;
+	public Integer getAnoLancamento() {
+		return anoLancamento;
 	}
-
-	public void setAnoLancamneto(Integer anoLancamneto) {
-		this.anoLancamneto = anoLancamneto;
+	
+	public void setAnoLancamento(Integer anoLancamento) {
+		this.anoLancamento = anoLancamento;
 	}
 
 	public Date getDuracao() {
@@ -94,16 +95,24 @@ public class Filme implements Serializable {
 
 	public void setDuracao(Date duracao) {
 		this.duracao = duracao;
+	}	
+	
+	public String getSinopse() {
+		return sinopse;
 	}
 	
-	public Collection<Genero> getGeneros() {
+	public void setSinopse(String sinopse) {
+		this.sinopse = sinopse;
+	}
+	
+	public Set<String> getGeneros() {
 		return generos;
 	}
 	
-	public void setGeneros(Collection<Genero> generos) {
+	public void setGeneros(Set<String> generos) {
 		this.generos = generos;
 	}
-
+	
 	public Boolean getTem() {
 		return tem;
 	}
@@ -120,13 +129,6 @@ public class Filme implements Serializable {
 		this.assistiu = assistiu;
 	}
 
-	public String getSinopse() {
-		return sinopse;
-	}
-
-	public void setSinopse(String sinopse) {
-		this.sinopse = sinopse;
-	}
 
 	@Override
 	public int hashCode() {

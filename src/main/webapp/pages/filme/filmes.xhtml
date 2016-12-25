@@ -38,8 +38,8 @@
 					</p:column>
 					
 					<p:column headerText="Ano" styleClass="coluna-ano-lancamento"
-						filterBy="#{filme.anoLancamneto}">
-						<h:outputText value="#{filme.anoLancamneto}" />
+						filterBy="#{filme.anoLancamento}">
+						<h:outputText value="#{filme.anoLancamento}" />
 					</p:column>
 					
 					<p:column headerText="Classifica&#231;&#227;o" styleClass="coluna-classificacao">
@@ -47,7 +47,9 @@
 					</p:column>
 					
 					<p:column headerText="Dura&#231;&#227;o" styleClass="coluna-duracao">
-						<h:outputText value="#{filme.duracao}" />
+						<h:outputText value="#{filme.duracao}">
+							<f:convertDateTime pattern="HH:mm" />
+						</h:outputText>
 					</p:column>
 					
 					<p:column headerText="Tem" styleClass="coluna-tem" sortBy="#{filme.tem}">
@@ -65,12 +67,11 @@
 					</p:column>
 					
 					<p:column headerText="Op&#231;&#245;es" styleClass="coluna-opcao">
-						<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgFilme').show();" update="dlg-filme">
+						<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgFilme').show();" update="dlg-filme" action="#{filmeBean.selecioneGeneros}">
 							<f:setPropertyActionListener value="#{filme}" target="#{filmeBean.filme}" />
 						</p:commandButton>
 						
-						<p:commandButton icon="fa fa-trash" update="form" process="@this"
-							action="#{filmeBean.remove()}">
+						<p:commandButton icon="fa fa-trash" update="form" process="@this" action="#{filmeBean.remove()}">
 							<f:setPropertyActionListener value="#{filme}" target="#{filmeBean.filme}" />
 							
 							<p:confirm header="Excluir" message="Confirma exclus&#227;o?" icon="ui-icon-alert" />
@@ -108,7 +109,7 @@
 						<p:inputText id="nomeOriginal" value="#{filmeBean.filme.nomeOriginal}" required="true" />
 						
 						<p:outputLabel for="ano" value="Ano lan&#231;amento:" />
-						<p:inputText id="ano" value="#{filmeBean.filme.anoLancamneto}" required="true" decimalPlaces="0" />
+						<p:inputText id="ano" value="#{filmeBean.filme.anoLancamento}" required="true" maxlength="4" />
 						
 						<p:outputLabel for="duracao" value="Dura&#231;&#227;o:" />
 						<pe:timePicker id="duracao" mode="popup" value="#{filmeBean.filme.duracao}" />
@@ -118,11 +119,11 @@
 			               <f:selectItems value="#{filmeBean.tipoClassificacaos}" var="t" itemLabel="#{t.label}" itemValue="#{t}" />                               
 			            </p:selectOneMenu>
 			            
-			            <p:outputLabel for="genero" value="Genero:" />
-				        <p:selectCheckboxMenu id="genero" value="#{filmeBean.filme.generos}" label="Generos"
+			            <p:outputLabel for="genero" value="G&#234;nero:" />
+				        <p:selectCheckboxMenu id="genero" value="#{filmeBean.generosSelecionados}" label="G&#234;neros"
 							filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-				            <f:selectItems value="#{filmeBean.generos}" var="g" itemLabel="#{g.label}" />
-				        </p:selectCheckboxMenu>
+				            <f:selectItems value="#{filmeBean.generos}" />
+				        </p:selectCheckboxMenu>	        
 			            
 			            <p:outputLabel for="sinopse" value="Sinopse:" />
 						<p:inputTextarea id="sinopse" rows="6" cols="33" value="#{filmeBean.filme.sinopse}" />
@@ -149,30 +150,35 @@
 		</p:dialog>
 		
 		<p:dialog widgetVar="dlgFilmeDescricao" id="dlg-descricao" modal="true" resizable="fasle" header="Descri&#231;&#227;o"
-			width="450px">
+			width="500px">
 			<h:form id="form-descricao">
 				<h:panelGrid columns="2">
 					<o:graphicImage value="#{imagesFilme.get(filmeBean.filme.id)}"
-						lastModified="#{filmeBean.getUltimaModificaoFoto(filmeBean.filme.id)}" height="150" />
+						lastModified="#{filmeBean.getUltimaModificaoFoto(filmeBean.filme.id)}" height="160" />
 					<h:panelGroup>
 						<h:panelGrid columns="2">
 							<p:outputLabel value="Nome:" />
 							<h:outputText value="#{filmeBean.filme.nome}" />
-							<p:outputLabel value="Nome Original:" />
+							<p:outputLabel value="Nome original:" />
 							<h:outputText value="#{filmeBean.filme.nomeOriginal}" />
-							<p:outputLabel value="Ano lancamento:" />
-							<h:outputText value="#{filmeBean.filme.anoLancamneto}" />
+							<p:outputLabel value="Ano lan&#231;amento:" />
+							<h:outputText value="#{filmeBean.filme.anoLancamento}" />
 							<p:outputLabel value="Dura&#231;&#227;o:" />
-							<h:outputText value="#{filmeBean.filme.duracao}" />
+							<h:outputText value="#{filmeBean.filme.duracao}">
+								<f:convertDateTime pattern="HH:mm" />
+							</h:outputText>
 							<p:outputLabel value="Classifi&#231;&#227;o:" />
 							<h:outputText value="#{filmeBean.filme.tipoClassificacao.label}" />
+							<p:outputLabel value="G&#234;neros:" />
+							<ui:repeat var="g" value="#{filmeBean.filme.generos}">
+								<h:outputText value="#{g}" />
+							</ui:repeat>						
 						</h:panelGrid>
 					</h:panelGroup>
 				</h:panelGrid>
 				<h:panelGrid columns="1">
 					<p:outputLabel value="Sinopse" />
-					<p:outputLabel style="text-align: justify;"
-						value="#{filmeBean.filme.sinopse}"/>
+					<p style="text-align: justify;">#{filmeBean.filme.sinopse}</p>
 				</h:panelGrid>	
 			</h:form>
 		</p:dialog>

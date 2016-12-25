@@ -40,7 +40,8 @@
 }
 
 .coluna-imagem {
-	width: 80px;
+	width: 90px;
+	text-align: center;
 }
 
 .coluna-opcao-edicao {
@@ -69,7 +70,7 @@
 }
 
 .coluna-capitulo-nome {
-	width: 80px;
+	width: 100px;
 }
 
 .coluna-escritor {

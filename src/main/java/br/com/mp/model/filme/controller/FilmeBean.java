@@ -3,8 +3,11 @@ package br.com.mp.model.filme.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -18,7 +21,6 @@ import org.primefaces.event.FileUploadEvent;
 import com.google.common.io.ByteStreams;
 
 import br.com.mp.model.filme.entity.Filme;
-import br.com.mp.model.filme.entity.Genero;
 import br.com.mp.model.filme.entity.ImagemFilme;
 import br.com.mp.model.filme.entity.TipoClassificacao;
 import br.com.mp.model.filme.service.FilmeService;
@@ -43,8 +45,8 @@ public class FilmeBean implements Serializable {
 	@SuppressWarnings("unused")
 	private TipoClassificacao[] tipoClassificacaos;
 	
-	@SuppressWarnings("unused")
-	private Genero[] generos;
+	private Set<String> generosSelecionados;
+	private List<String> generos;
 	
 	@Inject
 	private ImagesFilme imageFilmeBean;
@@ -79,13 +81,17 @@ public class FilmeBean implements Serializable {
 		this.tipoClassificacaos = tipoClassificacaos;
 	}
 	
-	public Genero[] getGeneros() {
-		return Genero.values();
+	public Set<String> getGenerosSelecionados() {
+		return generosSelecionados;
 	}
 	
-	public void setGeneros(Genero[] generos) {
-		this.generos = generos;
+	public void setGenerosSelecionados(Set<String> generosSelecionados) {
+		this.generosSelecionados = generosSelecionados;
 	}
+	
+	public List<String> getGeneros() {
+		return generos;
+	}	
 	
 	public ImagemFilme getImagem() {
 		return imagem;
@@ -94,13 +100,21 @@ public class FilmeBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		atualizar();
+		generos();
+		this.generosSelecionados = new HashSet<String>();
 		this.imagem = new ImagemFilme();
 	}
 
 	public void save() {
 		try {
+			this.filme.setGeneros(this.generosSelecionados);
 			this.filmeService.save(this.filme);
-			atualizar();
+			if(this.filme.getId() != null) {
+				RequestContext.getCurrentInstance().execute("PF('dlgFilme').hide();");
+				return;
+			}
+			this.atualizar();
+			this.generos();
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -116,7 +130,7 @@ public class FilmeBean implements Serializable {
 	}
 
 	public void novo() {
-		this.filme = new Filme();
+		this.filme = new Filme();		
 	}
 
 	public void uploadImagem(FileUploadEvent event) throws IOException {
@@ -190,12 +204,41 @@ public class FilmeBean implements Serializable {
 		return this.filmes.stream().filter(f->f.getAssistiu()==false).count();
 	}
 	
+	public void selecioneGeneros() {
+		this.generosSelecionados = new HashSet<String>(); 
+		if(!this.filme.getGeneros().isEmpty())
+			for(String g : this.filme.getGeneros())
+				this.generosSelecionados.add(g);
+	}
+	
 	private void atualizar() {
 		this.filmes = this.filmeService.list();
 		this.filme = new Filme();
+		this.generosSelecionados = new HashSet<String>();
 	}
 	
 	private Date obterDataHoraAtual() {
 		return new Date();
+	}
+
+	private void generos() {
+		this.generos = new ArrayList<String>();		
+		this.generos.add("Ação");
+		this.generos.add("Animação");
+		this.generos.add("Aventura");
+		this.generos.add("Biografia");
+		this.generos.add("Cómedia");
+		this.generos.add("Crime");
+		this.generos.add("Drama");
+		this.generos.add("Família");
+		this.generos.add("Fantasia");		
+		this.generos.add("Guerra");
+		this.generos.add("História");
+		this.generos.add("Horror");
+		this.generos.add("Músical");
+		this.generos.add("Mistério");
+		this.generos.add("Sci-Fi");
+		this.generos.add("Thriller");
+		this.generos.add("Romance");
 	}
 }

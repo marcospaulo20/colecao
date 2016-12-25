@@ -96,7 +96,7 @@
 					
 					<p:column styleClass="coluna-imagem" headerText="Capa">
 						<o:graphicImage value="#{imagesHQ.get(capitulo.id)}"
-							lastModified="#{edicaoBean.getUltimaModificaoFoto(capitulo.id)}" height="150" />
+							lastModified="#{edicaoBean.getUltimaModificaoFoto(capitulo.id)}" height="150" width="110" />
 					</p:column>
 					
 					<p:column headerText="Edi&#231;&#227;o" styleClass="coluna-nome-edicao">
@@ -214,7 +214,7 @@
 						<p:selectBooleanCheckbox id="leu" value="#{edicaoBean.capituloHQ.leu}" />
 					</h:panelGrid>												
 					
-					<p:commandButton value="Save" action="#{edicaoBean.saveCapitulo()}"
+					<p:commandButton value="Save" actionListener="#{edicaoBean.saveCapitulo()}"
 						update="form form-capitulo:tabela-capitulo form-capitulo-dlg:panel-capitulo-dlg" style="float: right" />
 				</p:panel>
 			</h:form>
@@ -235,7 +235,8 @@
 			</h:form>
 		</p:dialog>
 		
-		<p:dialog widgetVar="dlgDescricaoCapitulo" id="dlg-descricao-capitulo" modal="true" resizable="fasle" header="Descri&#231;&#227;o">
+		<p:dialog widgetVar="dlgDescricaoCapitulo" id="dlg-descricao-capitulo" modal="true" resizable="fasle" header="Descri&#231;&#227;o"
+			width="400">
 			<h:form id="form-descricao-capitulo">
 				<h:panelGrid columns="2">
 					<o:graphicImage value="#{imagesHQ.get(edicaoBean.capituloHQ.id)}"

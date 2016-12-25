@@ -2,9 +2,12 @@ package br.com.mp.model.serie.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -33,6 +37,13 @@ public class Serie implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	private TipoClassificacao tipoClassificacao;
+
+	private String sinopse;
+	
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="generos_serie", joinColumns=@JoinColumn(name="id"))
+	@Column(name="generos")
+	private Set<String> generos;
 	
 	@OneToMany(mappedBy = "serie", targetEntity = TemporadaSerie.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<TemporadaSerie> temporadas;
@@ -79,6 +90,22 @@ public class Serie implements Serializable {
 	
 	public void setTemporadas(List<TemporadaSerie> temporadas) {
 		this.temporadas = temporadas;
+	}
+	
+	public String getSinopse() {
+		return sinopse;
+	}
+	
+	public void setSinopse(String sinopse) {
+		this.sinopse = sinopse;
+	}
+	
+	public Set<String> getGeneros() {
+		return generos;
+	}
+	
+	public void setGeneros(Set<String> generos) {
+		this.generos = generos;
 	}
 
 	public String quantidadeTemporada() {
