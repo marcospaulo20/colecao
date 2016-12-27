@@ -5,30 +5,30 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import br.com.mp.model.serie.dao.TemporadaSerieDAO;
+import br.com.mp.model.serie.dao.TemporadaDAO;
 import br.com.mp.model.serie.entity.Serie;
-import br.com.mp.model.serie.entity.TemporadaSerie;
+import br.com.mp.model.serie.entity.Temporada;
 import br.com.mp.util.service.ServiceAbstract;
 
-public class TemporadaSerieServiceImpl extends ServiceAbstract<TemporadaSerie> implements TemporadaSerieService, Serializable {
+public class TemporadaServiceImpl extends ServiceAbstract<Temporada> implements TemporadaService, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private TemporadaSerieDAO temporadaSerieDAO;
+	private TemporadaDAO temporadaSerieDAO;
 	
 	@Inject
-	public TemporadaSerieServiceImpl(TemporadaSerieDAO dao) {
+	public TemporadaServiceImpl(TemporadaDAO dao) {
 		super(dao);
 		this.temporadaSerieDAO = dao;
 	}
 
 	@Override
-	public List<TemporadaSerie> list() {
+	public List<Temporada> list() {
 		return temporadaSerieDAO.list();
 	}
 
 	@Override
-	public List<TemporadaSerie> listBySerie(Serie serie) {
+	public List<Temporada> listBySerie(Serie serie) {
 		return temporadaSerieDAO.listBySerie(serie);
 	}
 }

@@ -192,9 +192,11 @@ public class SerieBean implements Serializable {
 		this.generos.add("Biografia");
 		this.generos.add("Cómedia");
 		this.generos.add("Crime");
+		this.generos.add("Documentário");
 		this.generos.add("Drama");
 		this.generos.add("Família");
-		this.generos.add("Fantasia");		
+		this.generos.add("Fantasia");
+		this.generos.add("Faroeste");
 		this.generos.add("Guerra");
 		this.generos.add("História");
 		this.generos.add("Horror");

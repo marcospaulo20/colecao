@@ -15,54 +15,54 @@ import org.primefaces.context.RequestContext;
 
 import com.sun.faces.util.MessageUtils;
 
-import br.com.mp.model.serie.entity.EpisodioSerie;
+import br.com.mp.model.serie.entity.Episodio;
 import br.com.mp.model.serie.entity.Serie;
-import br.com.mp.model.serie.entity.TemporadaSerie;
-import br.com.mp.model.serie.service.EpisodioSerieService;
+import br.com.mp.model.serie.entity.Temporada;
+import br.com.mp.model.serie.service.EpisodioService;
 import br.com.mp.model.serie.service.SerieService;
-import br.com.mp.model.serie.service.TemporadaSerieService;
+import br.com.mp.model.serie.service.TemporadaService;
 
-@Named(value = "temporadaSerieBean")
+@Named
 @ViewScoped
 public class TemporadaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private TemporadaSerieService temporadaSerieService;
+	private TemporadaService temporadaService;
 
 	@Inject
 	private SerieService serieService;
 
 	@Inject
-	private EpisodioSerieService episodioSerieService;
+	private EpisodioService episodioService;
 
-	private TemporadaSerie temporadaSerie;
-	private TemporadaSerie temporadaSerieSelecionado;
-	private List<TemporadaSerie> temporadaSeries;
+	private Temporada temporada;
+	private Temporada temporadaSelecionado;
+	private List<Temporada> temporadas;
 
 	private Serie serie;
 
-	private EpisodioSerie episodioSerie;
+	private Episodio episodio;
 
-	public TemporadaSerie getTemporadaSerie() {
-		return temporadaSerie;
+	public Temporada getTemporada() {
+		return temporada;
 	}
 
-	public void setTemporadaSerie(TemporadaSerie temporadaSerie) {
-		this.temporadaSerie = temporadaSerie;
+	public void setTemporada(Temporada temporada) {
+		this.temporada = temporada;
 	}
 
-	public TemporadaSerie getTemporadaSerieSelecionado() {
-		return temporadaSerieSelecionado;
+	public Temporada getTemporadaSelecionado() {
+		return temporadaSelecionado;
 	}
 
-	public void setTemporadaSerieSelecionado(TemporadaSerie temporadaSerieSelecionado) {
-		this.temporadaSerieSelecionado = temporadaSerieSelecionado;
+	public void setTemporadaSelecionado(Temporada temporadaSelecionado) {
+		this.temporadaSelecionado = temporadaSelecionado;
 	}
 
-	public List<TemporadaSerie> getTemporadaSeries() {
-		return temporadaSeries;
+	public List<Temporada> getTemporadas() {
+		return temporadas;
 	}
 
 	public Serie getSerie() {
@@ -73,12 +73,12 @@ public class TemporadaBean implements Serializable {
 		return serie;
 	}
 
-	public EpisodioSerie getEpisodioSerie() {
-		return episodioSerie;
+	public Episodio getEpisodio() {
+		return episodio;
 	}
 
-	public void setEpisodioSerie(EpisodioSerie episodioSerie) {
-		this.episodioSerie = episodioSerie;
+	public void setEpisodio(Episodio episodio) {
+		this.episodio = episodio;
 	}
 
 	@PostConstruct
@@ -88,21 +88,21 @@ public class TemporadaBean implements Serializable {
 
 	public void save() {
 		try {
-			List<EpisodioSerie> episodioSeries = new ArrayList<EpisodioSerie>();
+			List<Episodio> episodios = new ArrayList<Episodio>();
 
-			this.temporadaSerie.setSerie(serie);
-			TemporadaSerie temporadaRetorno = this.temporadaSerieService.save(this.temporadaSerie);
-			this.temporadaSeries = temporadaSerieService.listBySerie(serie);
+			this.temporada.setSerie(serie);
+			Temporada temporadaRetorno = this.temporadaService.save(this.temporada);
+			this.temporadas = temporadaService.listBySerie(serie);
 
-			if (this.temporadaSerie.equals(temporadaRetorno)) {
+			if (this.temporada.equals(temporadaRetorno)) {
 				RequestContext.getCurrentInstance().execute("PF('dlgTemporada').hide();");
 				return;
 			}
 
-			if (this.temporadaSerie.getEpisodios() == null)
-				this.temporadaSerie.setEpisodios(episodioSeries);
+			if (this.temporada.getEpisodios() == null)
+				this.temporada.setEpisodios(episodios);
 
-			this.temporadaSerie = new TemporadaSerie();
+			this.temporada = new Temporada();
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -110,20 +110,20 @@ public class TemporadaBean implements Serializable {
 
 	public void saveEpisodio() {
 		try {
-			List<EpisodioSerie> episodioSeries = new ArrayList<EpisodioSerie>();
+			List<Episodio> episodios = new ArrayList<Episodio>();
 
-			this.episodioSerie.setTemporada(this.temporadaSerieSelecionado);
-			EpisodioSerie episodioRetorno = this.episodioSerieService.save(this.episodioSerie);
+			this.episodio.setTemporada(this.temporadaSelecionado);
+			Episodio episodioRetorno = this.episodioService.save(this.episodio);
 
-			if (this.episodioSerie.equals(episodioRetorno)) {
+			if (this.episodio.equals(episodioRetorno)) {
 				RequestContext.getCurrentInstance().execute("PF('dlgEpisodio').hide();");
 				return;
 			}
-			if (this.temporadaSerieSelecionado.getEpisodios() == null)
-				this.temporadaSerieSelecionado.setEpisodios(episodioSeries);
+			if (this.temporadaSelecionado.getEpisodios() == null)
+				this.temporadaSelecionado.setEpisodios(episodios);
 
-			this.temporadaSerieSelecionado.getEpisodios().add(episodioRetorno);
-			this.episodioSerie = new EpisodioSerie();
+			this.temporadaSelecionado.adicionaEpisodio(episodioRetorno);
+			this.episodio = new Episodio();
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -131,16 +131,16 @@ public class TemporadaBean implements Serializable {
 
 	public void remove() {
 		try {
-			if (this.temporadaSerie.getEpisodios().size() > 0) {
+			if (this.temporada.getEpisodios().size() > 0) {
 				MessageUtils.getExceptionMessage("Existem temporada!");
 				return;
 			}
-			this.serie.getTemporadas().remove(this.temporadaSerie);
+			this.serie.getTemporadas().remove(this.temporada);
 			this.serieService.save(this.serie);
 
-			this.temporadaSerieService.remove(this.temporadaSerie);
-			this.temporadaSeries = temporadaSerieService.listBySerie(serie);
-			this.temporadaSerie = new TemporadaSerie();
+			this.temporadaService.remove(this.temporada);
+			this.temporadas = temporadaService.listBySerie(serie);
+			this.temporada = new Temporada();
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -148,11 +148,11 @@ public class TemporadaBean implements Serializable {
 
 	public void removeEpisodio() {
 		try {
-			this.episodioSerieService.remove(this.episodioSerie);
+			this.episodioService.remove(this.episodio);
 
-			this.temporadaSerieSelecionado.getEpisodios().remove(this.episodioSerie);
+			this.temporadaSelecionado.getEpisodios().remove(this.episodio);
 
-			this.episodioSerie = new EpisodioSerie();
+			this.episodio = new Episodio();
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -160,49 +160,49 @@ public class TemporadaBean implements Serializable {
 
 	public void atualizarEpisodio() {
 		try {
-			this.episodioSerieService.save(this.episodioSerie);
+			this.episodioService.save(this.episodio);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void novo() {
-		this.temporadaSerie = new TemporadaSerie();
-		this.temporadaSerieSelecionado = new TemporadaSerie();
+		this.temporada = new Temporada();
+		this.temporadaSelecionado = new Temporada();
 	}
 
 	public void novoEpisodio() {
-		this.episodioSerie = new EpisodioSerie();
+		this.episodio = new Episodio();
 	}
 
-	public void atualizarCheckTemporada(TemporadaSerie temporadaSerie, boolean checkSelection) {
+	public void atualizarCheckTemporada(Temporada temporadaSerie, boolean checkSelection) {
 		if (temporadaSerie != null) {
 			temporadaSerie.setTem(checkSelection);
-			this.temporadaSerieService.save(temporadaSerie);
-			this.temporadaSerieService.listBySerie(serie);
+			this.temporadaService.save(temporadaSerie);
+			this.temporadaService.listBySerie(serie);
 		}
 	}
 
-	public void atualizarCheckEpisodioTem(EpisodioSerie episodioSerie, boolean checkSelection) {
+	public void atualizarCheckEpisodioTem(Episodio episodioSerie, boolean checkSelection) {
 		if (episodioSerie != null) {
 			episodioSerie.setTem(checkSelection);
-			this.episodioSerieService.save(episodioSerie);
-			this.temporadaSerieService.listBySerie(serie);
+			this.episodioService.save(episodioSerie);
+			this.temporadaService.listBySerie(serie);
 		}
 	}
 
-	public void atualizarCheckEpisodio(EpisodioSerie episodioSerie, boolean checkSelection) {
+	public void atualizarCheckEpisodio(Episodio episodioSerie, boolean checkSelection) {
 		if (episodioSerie != null) {
 			episodioSerie.setAssitiu(checkSelection);
-			this.episodioSerieService.save(episodioSerie);
-			this.temporadaSerieService.listBySerie(serie);
+			this.episodioService.save(episodioSerie);
+			this.temporadaService.listBySerie(serie);
 		}
 	}
 
 	private void atualizar() {
-		this.temporadaSeries = temporadaSerieService.listBySerie(buscarSeriePorUrl());
-		this.temporadaSerie = new TemporadaSerie();
-		this.temporadaSerieSelecionado = new TemporadaSerie();
+		this.temporadas = temporadaService.listBySerie(buscarSeriePorUrl());
+		this.temporada = new Temporada();
+		this.temporadaSelecionado = new Temporada();
 	}
 
 	private Serie buscarSeriePorUrl() {

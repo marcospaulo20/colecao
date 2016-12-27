@@ -4,23 +4,26 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="colecao" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<class>br.com.mp.model.filme.entity.ImagemFilme</class>
+		<class>br.com.mp.model.hq.entity.ImagemHQ</class>
+		<class>br.com.mp.model.manga.entity.ImagemManga</class>
+		<class>br.com.mp.model.serie.entity.ImagemSerie</class>
+		
 		<class>br.com.mp.model.manga.entity.Manga</class>
 		<class>br.com.mp.model.manga.entity.Volume</class>
 		<class>br.com.mp.model.manga.entity.Capitulo</class>
-		<class>br.com.mp.model.manga.entity.ImagemManga</class>
+		
 		
 		<class>br.com.mp.model.hq.entity.HQ</class>
 		<class>br.com.mp.model.hq.entity.Edicao</class>
 		<class>br.com.mp.model.hq.entity.CapituloHQ</class>
-		<class>br.com.mp.model.hq.entity.ImagemHQ</class>
-		
-		<class>br.com.mp.model.serie.entity.Serie</class>
-		<class>br.com.mp.model.serie.entity.TemporadaSerie</class>
-		<class>br.com.mp.model.serie.entity.EpisodioSerie</class>
-		<class>br.com.mp.model.serie.entity.ImagemSerie</class>
-		
+								
+		<class>br.com.mp.model.serie.entity.Serie</class>	
+		<class>br.com.mp.model.serie.entity.Temporada</class>
+		<class>br.com.mp.model.serie.entity.Episodio</class>
+				
 		<class>br.com.mp.model.filme.entity.Filme</class>
-		<class>br.com.mp.model.filme.entity.ImagemFilme</class>
 		
 		<properties>
 			 <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />

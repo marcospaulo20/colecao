@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -41,6 +42,7 @@ public class Volume implements Serializable {
 	private Manga manga;
 
 	@OneToMany(mappedBy = "volume", targetEntity = Capitulo.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OrderBy("numero ASC")
 	private List<Capitulo> capitulos;
 
 	public Volume() {

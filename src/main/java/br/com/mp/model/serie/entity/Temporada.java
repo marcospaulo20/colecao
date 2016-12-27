@@ -13,11 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.OrderBy;
 
 @Entity
-@Table(name = "temporada_serie")
-public class TemporadaSerie implements Serializable {
+public class Temporada implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,8 +31,9 @@ public class TemporadaSerie implements Serializable {
 
 	private Boolean tem = Boolean.FALSE;
 
-	@OneToMany(mappedBy = "temporada", targetEntity = EpisodioSerie.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<EpisodioSerie> episodios;
+	@OneToMany(mappedBy = "temporada", targetEntity = Episodio.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OrderBy("numero ASC")
+	private List<Episodio> episodios;
 
 	@ManyToOne
 	@JoinColumn(name = "serie_id")
@@ -67,11 +67,11 @@ public class TemporadaSerie implements Serializable {
 		this.tem = tem;
 	}
 
-	public List<EpisodioSerie> getEpisodios() {
+	public List<Episodio> getEpisodios() {
 		return episodios;
 	}
 
-	public void setEpisodios(List<EpisodioSerie> episodios) {
+	public void setEpisodios(List<Episodio> episodios) {
 		this.episodios = episodios;
 	}
 
@@ -84,15 +84,15 @@ public class TemporadaSerie implements Serializable {
 	}
 
 	public String quantidadeEpisodioTem() {
-		return this.episodios.stream().filter(e -> e.getAssitiu() == true).count() + " de " + this.episodios.size();
+		return this.getEpisodios().stream().filter(e -> e.getTem() == true).count() + " de " + this.getEpisodios().size();
 	}
 
 	public String quantidadeEpisodioQueAssistido() {
-		return this.episodios.stream().filter(e -> e.getAssitiu() == true).count() + " de " + this.episodios.size();
+		return this.getEpisodios().stream().filter(e -> e.getAssitiu() == true).count() + " de " + this.getEpisodios().size();
 	}
-
-	public void setId(Long id) {
-		this.id = id;
+	
+	public void adicionaEpisodio(Episodio episodio) {
+		this.episodios.add(episodio);
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class TemporadaSerie implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TemporadaSerie other = (TemporadaSerie) obj;
+		Temporada other = (Temporada) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

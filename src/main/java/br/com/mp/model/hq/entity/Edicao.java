@@ -1,10 +1,8 @@
 package br.com.mp.model.hq.entity;
 
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -37,6 +36,7 @@ public class Edicao implements Serializable {
 	private Boolean tem = Boolean.FALSE;
 
 	@OneToMany(mappedBy = "edicao", targetEntity = CapituloHQ.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OrderBy("numero ASC")
 	private List<CapituloHQ> capitulos;
 
 	@ManyToOne
@@ -72,8 +72,7 @@ public class Edicao implements Serializable {
 	}
 
 	public List<CapituloHQ> getCapitulos() {
-		return this.capitulos == null ? this.capitulos
-				: capitulos.stream().sorted(Comparator.comparing(CapituloHQ::getNumero)).collect(Collectors.toList());
+		return capitulos;
 	}
 
 	public void setCapitulos(List<CapituloHQ> capitulos) {

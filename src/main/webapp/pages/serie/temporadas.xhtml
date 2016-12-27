@@ -15,16 +15,16 @@
 		    	<p:breadCrumb>
 				    <p:menuitem url="/index.xhtml" />
 				    <p:menuitem value="Titulos" url="/pages/serie/series.xhtml" />
-				    <p:menuitem value="#{temporadaSerieBean.serie.nome}" url="#" />				    
+				    <p:menuitem value="#{temporadaBean.serie.nome}" url="#" />
 				</p:breadCrumb>
 		    </p:panel>
 		    
 		    <p:panel header="Temporadas" id="panel-temporada-tabela">
 		    	<f:facet name="actions">
-		    		<p:commandButton styleClass="botao-novo" icon="fa fa-plus" actionListener="#{temporadaSerieBean.novo}" oncomplete="PF('dlgTemporada').show();" update="dlg-temporada" />
+		    		<p:commandButton styleClass="botao-novo" icon="fa fa-plus" actionListener="#{temporadaBean.novo}" oncomplete="PF('dlgTemporada').show();" update="dlg-temporada" />
 		    	</f:facet>
 		    	
-				<p:dataTable value="#{temporadaSerieBean.temporadaSeries}" var="temporada" id="tabela-temporada"
+				<p:dataTable value="#{temporadaBean.temporadas}" var="temporada" id="tabela-temporada"
 					paginator="true" paginatorPosition="bottom" rows="3"
 					rowStyleClass="#{temporada.tem == true ? null : 'red'}"
 					emptyMessage="Nenhum registro foi encontrado.">
@@ -47,18 +47,18 @@
 					
 					<p:column headerText="Tem" styleClass="coluna-tem">
 						<p:selectBooleanCheckbox value="#{temporada.tem}">
-							<p:ajax partialSubmit="true" resetValues="true" listener="#{temporadaSerieBean.atualizarCheckTemporada(temporada, temporada.tem)}"
+							<p:ajax partialSubmit="true" resetValues="true" listener="#{temporadaBean.atualizarCheckTemporada(temporada, temporada.tem)}"
 								update="form:tabela-temporada" />
 						</p:selectBooleanCheckbox>						
 					</p:column>
 					
 					<p:column headerText="Op&#231;&#245;es" styleClass="coluna-opcao-temporada">
 						<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgTemporada').show();" update="form-temporada:panel-temporada" process="@this">
-							<f:setPropertyActionListener value="#{temporada}" target="#{temporadaSerieBean.temporadaSerie}" />
+							<f:setPropertyActionListener value="#{temporada}" target="#{temporadaBean.temporada}" />
 						</p:commandButton>
 						
-						<p:commandButton icon="fa fa-trash" update="form" process="@this" action="#{temporadaSerieBean.remove()}">
-							<f:setPropertyActionListener value="#{temporada}" target="#{temporadaSerieBean.temporadaSerie}" />
+						<p:commandButton icon="fa fa-trash" update="form" process="@this" action="#{temporadaBean.remove()}">
+							<f:setPropertyActionListener value="#{temporada}" target="#{temporadaBean.temporada}" />
 							<p:confirm header="Excluir" message="Confirma exclus&#227;o?" icon="ui-icon-alert" />
 							<p:confirmDialog header="Exluir" global="true" showEffect="fade" hideEffect="fade">
 								<p:commandButton  value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -67,12 +67,12 @@
 						</p:commandButton>
 						
 						<p:commandButton icon="fa fa-search" update="form-episodio:panel-episodio">
-							<f:setPropertyActionListener value="#{temporada}" target="#{temporadaSerieBean.temporadaSerieSelecionado}" />						
+							<f:setPropertyActionListener value="#{temporada}" target="#{temporadaBean.temporadaSelecionado}" />						
 						</p:commandButton>
 					</p:column>
 					
 					<f:facet name="footer">
-			        	No total h&#225; #{fn:length(temporadaSerieBean.temporadaSeries)} temporadas.
+			        	No total h&#225; #{fn:length(temporadaBean.temporadas)} temporadas.
 			    	</f:facet>
 				</p:dataTable>
 			</p:panel>
@@ -82,18 +82,18 @@
 			<p:panel id="panel-episodio" header="Episodios">
 				
 				<f:facet name="actions" id="botao-acao">
-					<p:commandButton styleClass="botao-novo" icon="fa fa-plus" actionListener="#{temporadaSerieBean.novoEpisodio}" 
+					<p:commandButton styleClass="botao-novo" icon="fa fa-plus" actionListener="#{temporadaBean.novoEpisodio}" 
 						oncomplete="PF('dlgEpisodio').show();" update="dlg-episodio"/>
 				</f:facet>	
 				
-				<p:dataTable id="tabela-episodio" value="#{temporadaSerieBean.temporadaSerieSelecionado.episodios}" var="episodio"
+				<p:dataTable id="tabela-episodio" value="#{temporadaBean.temporadaSelecionado.episodios}" var="episodio"
 					paginator="true" paginatorPosition="bottom" rows="3"
 					editable="true" editMode="cell" widgetVar="cellEpisodios"
 					rowStyleClass="#{episodio.tem == true ? null : 'red'}"
 					emptyMessage="Nenhum registro foi encontrado.">
 					
 					<p:column headerText="Temporada" styleClass="coluna-temporada">
-						<h:outputText value="#{temporadaSerieBean.temporadaSerieSelecionado.nome}" />
+						<h:outputText value="#{temporadaBean.temporadaSelecionado.nome}" />
 					</p:column>
 					
 					<p:column headerText="N&#250;mero" styleClass="coluna-numero-episodio" sortBy="#{episodio.numero}">
@@ -106,25 +106,25 @@
 					
 					<p:column headerText="Tem" styleClass="coluna-tem">
 						<p:selectBooleanCheckbox value="#{episodio.tem}">
-							<p:ajax partialSubmit="true" resetValues="true" listener="#{temporadaSerieBean.atualizarCheckEpisodioTem(episodio, episodio.tem)}"
+							<p:ajax partialSubmit="true" resetValues="true" listener="#{temporadaBean.atualizarCheckEpisodioTem(episodio, episodio.tem)}"
 								update="tabela-episodio form:tabela-temporada"/>
 						</p:selectBooleanCheckbox>
 					</p:column>
 					
 					<p:column headerText="Assistiu" styleClass="coluna-assistiu">
 						<p:selectBooleanCheckbox value="#{episodio.assitiu}">
-							<p:ajax partialSubmit="true" resetValues="true" listener="#{temporadaSerieBean.atualizarCheckEpisodio(episodio, episodio.assitiu)}"
+							<p:ajax partialSubmit="true" resetValues="true" listener="#{temporadaBean.atualizarCheckEpisodio(episodio, episodio.assitiu)}"
 								update="tabela-episodio form:tabela-temporada"/>
 						</p:selectBooleanCheckbox>
 					</p:column>
 					
 					<p:column headerText="Op&#231;&#245;es" styleClass="coluna-opcao">
 						<p:commandButton icon="fa fa-edit" oncomplete="PF('dlgEpisodio').show();" update="form-episodio-dlg" process="@this">
-							<f:setPropertyActionListener value="#{episodio}" target="#{temporadaSerieBean.episodioSerie}" />
+							<f:setPropertyActionListener value="#{episodio}" target="#{temporadaBean.episodio}" />
 						</p:commandButton>
 						
-						<p:commandButton icon="fa fa-trash" update="form form-episodio:tabela-episodio" process="@this" action="#{temporadaSerieBean.removeEpisodio()}">
-							<f:setPropertyActionListener value="#{episodio}" target="#{temporadaSerieBean.episodioSerie}" />
+						<p:commandButton icon="fa fa-trash" update="form form-episodio:tabela-episodio" process="@this" action="#{temporadaBean.removeEpisodio()}">
+							<f:setPropertyActionListener value="#{episodio}" target="#{temporadaBean.episodio}" />
 							<p:confirm header="Excluir" message="Confirma exclus&#227;o?" icon="ui-icon-alert" />
 							<p:confirmDialog header="Exluir" global="true" showEffect="fade" hideEffect="fade">
 								<p:commandButton  value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -141,16 +141,16 @@
 				<p:panel id="panel-temporada">
 					<h:panelGrid columns="2">
 						<p:outputLabel for="nome" value="Nome:" />
-						<p:inputText id="nome" value="#{temporadaSerieBean.temporadaSerie.nome}" required="true" />
+						<p:inputText id="nome" value="#{temporadaBean.temporada.nome}" required="true" />
 						
 						<p:outputLabel for="ano-lancamento" value="Ano lan&#231;amento:" />
-						<p:inputText id="ano-lancamento" value="#{temporadaSerieBean.temporadaSerie.anoLancamento}" maxlength="4"/>
+						<p:inputText id="ano-lancamento" value="#{temporadaBean.temporada.anoLancamento}" maxlength="4"/>
 					
 						<p:outputLabel for="tem" value="Tem:" />
-						<p:selectBooleanCheckbox id="tem" value="#{temporadaSerieBean.temporadaSerie.tem}" />
+						<p:selectBooleanCheckbox id="tem" value="#{temporadaBean.temporada.tem}" />
 					</h:panelGrid>	
 					
-					<p:commandButton value="Save" action="#{temporadaSerieBean.save()}" 
+					<p:commandButton value="Save" action="#{temporadaBean.save()}" 
 						update="form:tabela-temporada form-temporada:panel-temporada form-episodio:tabela-episodio" style="float: right" />
 				</p:panel>
 			</h:form>
@@ -161,19 +161,19 @@
 				<p:panel id="panel-episodio-dlg">
 					<h:panelGrid columns="2">
 						<p:outputLabel for="numero" value="N&#250;mero:" />
-						<p:inputNumber id="numero" value="#{temporadaSerieBean.episodioSerie.numero}" decimalPlaces="0" />
+						<p:inputNumber id="numero" value="#{temporadaBean.episodio.numero}" decimalPlaces="0" />
 						
 						<p:outputLabel for="nome" value="Nome:" />
-						<p:inputText id="nome" value="#{temporadaSerieBean.episodioSerie.nome}" required="true" />
+						<p:inputText id="nome" value="#{temporadaBean.episodio.nome}" required="true" />
 					
 						<p:outputLabel for="tem" value="Tem:" />
-						<p:selectBooleanCheckbox id="tem" value="#{temporadaSerieBean.episodioSerie.tem}" />
+						<p:selectBooleanCheckbox id="tem" value="#{temporadaBean.episodio.tem}" />
 						
 						<p:outputLabel for="assistiu" value="Assistiu:" />
-						<p:selectBooleanCheckbox id="assistiu" value="#{temporadaSerieBean.episodioSerie.assitiu}" />
+						<p:selectBooleanCheckbox id="assistiu" value="#{temporadaBean.episodio.assitiu}" />
 					</h:panelGrid>												
 					
-					<p:commandButton value="Save" action="#{temporadaSerieBean.saveEpisodio()}"
+					<p:commandButton value="Save" action="#{temporadaBean.saveEpisodio()}"
 						update="form form-episodio:tabela-episodio form-episodio-dlg:panel-episodio-dlg" style="float: right" />
 				</p:panel>
 			</h:form>

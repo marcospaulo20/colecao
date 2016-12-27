@@ -228,10 +228,13 @@ public class FilmeBean implements Serializable {
 		this.generos.add("Aventura");
 		this.generos.add("Biografia");
 		this.generos.add("Cómedia");
+		this.generos.add("Documentário");
 		this.generos.add("Crime");
 		this.generos.add("Drama");
+		this.generos.add("Esporte");
 		this.generos.add("Família");
-		this.generos.add("Fantasia");		
+		this.generos.add("Fantasia");
+		this.generos.add("Faroeste");
 		this.generos.add("Guerra");
 		this.generos.add("História");
 		this.generos.add("Horror");
@@ -239,6 +242,6 @@ public class FilmeBean implements Serializable {
 		this.generos.add("Mistério");
 		this.generos.add("Sci-Fi");
 		this.generos.add("Thriller");
-		this.generos.add("Romance");
+		this.generos.add("Romance");		
 	}
 }

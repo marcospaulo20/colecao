@@ -8,11 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "episodio_serie")
-public class EpisodioSerie implements Serializable {
+public class Episodio implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +28,7 @@ public class EpisodioSerie implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "temporada_id")
-	private TemporadaSerie temporada;
+	private Temporada temporada;
 
 	public Long getId() {
 		return id;
@@ -68,11 +66,11 @@ public class EpisodioSerie implements Serializable {
 		this.assitiu = assitiu;
 	}
 
-	public TemporadaSerie getTemporada() {
+	public Temporada getTemporada() {
 		return temporada;
 	}
 
-	public void setTemporada(TemporadaSerie temporada) {
+	public void setTemporada(Temporada temporada) {
 		this.temporada = temporada;
 	}
 
@@ -92,7 +90,7 @@ public class EpisodioSerie implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EpisodioSerie other = (EpisodioSerie) obj;
+		Episodio other = (Episodio) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

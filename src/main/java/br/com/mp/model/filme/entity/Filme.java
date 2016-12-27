@@ -2,9 +2,9 @@ package br.com.mp.model.filme.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -14,7 +14,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -44,10 +43,9 @@ public class Filme implements Serializable {
 
 	private String sinopse;
 	
-	@ElementCollection(fetch=FetchType.EAGER)
-	@CollectionTable(name="generos_filme", joinColumns=@JoinColumn(name="id"))
-	@Column(name="generos")
-	private Set<String> generos;
+	@ElementCollection(fetch=FetchType.EAGER)	
+	@Column(name="genero", length = 50)	
+	private Set<String> generos = new HashSet<String>();
 	
 	private Boolean tem = Boolean.FALSE;
 
