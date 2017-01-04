@@ -37,7 +37,7 @@ public class Serie implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	private TipoClassificacao tipoClassificacao;
-
+	
 	private String sinopse;
 
 	@OneToMany(mappedBy = "serie", targetEntity = Temporada.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)

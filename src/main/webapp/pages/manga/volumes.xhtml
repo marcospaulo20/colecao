@@ -53,7 +53,7 @@
 							lastModified="#{volumeBean.getUltimaModificaoFoto(volume.id)}" height="150" width="100" />
 					</p:column>
 					
-					<p:column headerText="Nome" styleClass="coluna-nome-volume" filterBy="#{volume.nome}">
+					<p:column headerText="Nome" styleClass="coluna-nome-volume" filterBy="#{volume.nome}" sortBy="#{volume.nome}">
 						<h:outputText value="#{volume.nome}" />
 					</p:column>
 					

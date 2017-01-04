@@ -29,7 +29,7 @@
 				
 				<p:column styleClass="coluna-imagem" headerText="Capa">
 					<o:graphicImage value="#{imagesManga.get(manga.volumes[0].id)}"
-						lastModified="#{volumeBean.getUltimaModificaoFoto(manga.volumes[0].id)}" height="150" />
+						lastModified="#{volumeBean.getUltimaModificaoFoto(manga.volumes[0].id)}" height="150" width="100" />
 				</p:column>
 				
 				<p:column headerText="Nome" styleClass="coluna-nome" sortBy="#{manga.nome}"
