@@ -11,7 +11,7 @@
 		<h:outputStylesheet library="css" name="series.css" />
 		<h:form id="form">
 		    <p:panel id="panel-serie" header="Series">
-		    	<f:facet name="actions">    		    	
+		    	<f:facet name="actions">	
 		            <p:commandButton styleClass="botao-novo" icon="fa fa-plus" actionListener="#{serieBean.novo}" oncomplete="PF('dlgSerie').show();" update="dlg-serie" />
 				</f:facet>
 				
@@ -45,7 +45,7 @@
 						<h:outputText value="#{serie.tipoClassificacao.label}" />
 					</p:column>
 					
-					<p:column headerText="N&#176; temporadas" styleClass="coluna-numero-temporada">
+					<p:column headerText="N&#176; temporadas" styleClass="coluna-numero-temporada" sortBy="#{serie.temporadas != null ? serie.temporadas.size() : 0}">
 						<h:outputText value="#{serie.temporadas == null ? 0 : serie.quantidadeTemporada()}" />
 					</p:column>
 					

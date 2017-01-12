@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -93,7 +94,7 @@ public class Serie implements Serializable {
 	}
 
 	public List<Temporada> getTemporadas() {
-		return temporadas;
+		return temporadas!= null ? temporadas.stream().distinct().collect(Collectors.toList()) : temporadas;
 	}
 
 	public void setTemporadas(List<Temporada> temporadas) {
@@ -117,7 +118,7 @@ public class Serie implements Serializable {
 	}
 
 	public String quantidadeTemporada() {
-		return this.temporadas.stream().filter(t -> t.getTem() == true).count() + " de " + this.temporadas.size();
+		return getTemporadas().stream().filter(t -> t.getTem() == true).count() + " de " + this.temporadas.size();
 	}
 
 	@Override

@@ -55,7 +55,7 @@
 					<h:outputText value="#{manga.tipo.label}" />
 				</p:column>
 				
-				<p:column headerText="N&#176; volumes" styleClass="coluna-numero-volume">
+				<p:column headerText="N&#176; volumes" styleClass="coluna-numero-volume" sortBy="#{manga.volumes != null ? manga.volumes.size() : 0}">
 					<h:outputText value="#{manga.volumes == null ? 0 : manga.quantidadeVolume()}" />
 				</p:column>
 				

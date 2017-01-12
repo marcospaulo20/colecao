@@ -2,6 +2,7 @@ package br.com.mp.model.serie.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -68,7 +69,7 @@ public class Temporada implements Serializable {
 	}
 
 	public List<Episodio> getEpisodios() {
-		return episodios;
+		return this.episodios != null ? this.episodios.stream().distinct().collect(Collectors.toList()) : this.episodios;
 	}
 
 	public void setEpisodios(List<Episodio> episodios) {
